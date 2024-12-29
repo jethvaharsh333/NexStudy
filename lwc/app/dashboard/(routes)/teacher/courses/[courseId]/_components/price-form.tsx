@@ -35,6 +35,7 @@ interface PriceFormProps {
 
 export const PriceForm = ({initialData, courseId}:PriceFormProps) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [price, setPrice] = useState(initialData.price);
 
     const toggleEdit = () => setIsEditing((current) => !current);
 
@@ -51,10 +52,10 @@ export const PriceForm = ({initialData, courseId}:PriceFormProps) => {
 
     const onSubmit = async(values: z.infer<typeof formSchema>) => {
         try{
-            await axios.patch(`/api/courses/${courseId}`, values);
+            const { data } = await axios.patch(`/api/courses/${courseId}`, values);
+            setPrice(data.price);
             toast.success("Course updated");
             toggleEdit();
-            router.refresh();
         }
         catch(error){
             toast.error("Something went wrong");
@@ -79,9 +80,9 @@ export const PriceForm = ({initialData, courseId}:PriceFormProps) => {
             {!isEditing && (
                 <p className={cn(
                     "text-sm mt-2",
-                    !initialData.price && "text-slate-500 italic"
+                    !price && "text-slate-500 italic"
                 )}>
-                    {initialData.price ? formatPrice(initialData.price) : "No price"}
+                    {price ? formatPrice(price) : "No price"}
                 </p>
             )}
             {isEditing && (

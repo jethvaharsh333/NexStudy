@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 export const columns: ColumnDef<Course>[] = [
   {
@@ -82,6 +83,15 @@ export const columns: ColumnDef<Course>[] = [
     id: "actions",
     cell: ({ row }) => {
         const { id } = row.original;
+        const [loading, setLoading] = useState(false);
+
+        const handleClick = (e: React.MouseEvent) => {
+            if (loading) {
+                e.preventDefault();
+                return;
+            }
+            setLoading(true);
+        };
 
         return(
             <DropdownMenu>
@@ -92,9 +102,13 @@ export const columns: ColumnDef<Course>[] = [
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                    <Link href={`/dashboard/teacher/courses/${id}`}>
-                        <DropdownMenuItem>
+                    <Link href={`/dashboard/teacher/courses/${id}`} prefetch>
+                        <DropdownMenuItem onClick={handleClick} className={cn(loading? "opacity-50 cursor-not-allowed" : "")}>
+                        {loading ? (
+                            <span className="loader mr-2" />
+                        ) : (
                             <Pencil className="h-4 w-4 mr-2" />
+                        )}
                             Edit
                         </DropdownMenuItem>
                     </Link>

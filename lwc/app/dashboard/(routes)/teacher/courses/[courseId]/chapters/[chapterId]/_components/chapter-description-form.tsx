@@ -34,6 +34,7 @@ const formSchema = z.object({
 
 export const ChapterDescriptionForms = ({initialData, courseId, chapterId}:ChapterDescriptionFormsProps) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [description, setDescription] = useState(initialData.description);
 
     const toggleEdit = () => setIsEditing((current) => !current);
 
@@ -50,10 +51,12 @@ export const ChapterDescriptionForms = ({initialData, courseId, chapterId}:Chapt
 
     const onSubmit = async(values: z.infer<typeof formSchema>) => {
         try{
-            await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
+            const { data } = await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
+            setDescription(data.description);
+
             toast.success("Chapter updated");
             toggleEdit();
-            router.refresh();
+            // router.refresh();
         }
         catch(error){
             toast.error("Something went wrong");
@@ -78,11 +81,11 @@ export const ChapterDescriptionForms = ({initialData, courseId, chapterId}:Chapt
             {!isEditing && (
                 <div className={cn(
                     "text-sm mt-2",
-                    !initialData.description && "text-slate-500 italic"
+                    !description && "text-slate-500 italic"
                 )}>
-                    {!initialData.description && "No description"}
-                    {initialData.description && (
-                        <Preview value={initialData.description} />
+                    {!description && "No description"}
+                    {description && (
+                        <Preview value={description} />
                     )}
                 </div>
             )}

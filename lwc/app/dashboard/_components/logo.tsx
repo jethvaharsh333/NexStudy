@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 const Logo = () => {
-    return (  
+    return ( 
         <div>
             <Image height={130} width={170} alt='logo' src='/logo.svg'/>
         </div>

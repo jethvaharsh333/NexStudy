@@ -37,10 +37,9 @@ interface DescriptionFormProps {
 
 const DescriptionForm = ({initialData, courseId}:DescriptionFormProps) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [description, setDescription] = useState(initialData.description);
 
     const toggleEdit = () => setIsEditing((current) => !current);
-
-    const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -53,10 +52,10 @@ const DescriptionForm = ({initialData, courseId}:DescriptionFormProps) => {
 
     const onSubmit = async(values: z.infer<typeof formSchema>) => {
         try{
-            await axios.patch(`/api/courses/${courseId}`, values);
+            const { data } = await axios.patch(`/api/courses/${courseId}`, values);
+            setDescription(data.description);
             toast.success("Course updated");
             toggleEdit();
-            router.refresh();
         }
         catch(error){
             toast.error("Something went wrong");
@@ -81,9 +80,9 @@ const DescriptionForm = ({initialData, courseId}:DescriptionFormProps) => {
             {!isEditing && (
                 <p className={cn(
                     "text-sm mt-2",
-                    !initialData.description && "text-slate-500 italic"
+                    !description && "text-slate-500 italic"
                 )}>
-                    {initialData.description || "No description"}
+                    {description || "No description"}
                 </p>
             )}
             {isEditing && (

@@ -38,7 +38,7 @@ export const CourseProgressButton = ({
             }
 
             if(!isCompleted && nextChapterId){
-                router.push(`/dashboard/courses/${courseId}/chapters/${nextChapterId}`)
+                router.push(`/courses/${courseId}/chapters/${nextChapterId}`)
             }
 
             toast.success("Progress updated");

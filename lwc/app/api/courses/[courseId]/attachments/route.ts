@@ -34,7 +34,13 @@ export async function POST(
             }
         });
 
-        return NextResponse.json(attachment);
+        const attachments = await db.attachment.findMany({
+            where: {
+              courseId: params.courseId,
+            },  
+          });
+
+        return NextResponse.json({attachments});
     }
     catch(error){
         console.log("COURSE_ID_ATTACHMENTS", error);

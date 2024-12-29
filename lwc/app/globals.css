@@ -71,6 +71,46 @@ body,
     --ring: 212.7 26.8% 83.9%;
   }
 }
+
+@layer components{
+  .btn{
+    @apply px-4 py-2 rounded-lg font-medium inline-flex items-center justify-center tracking-tight
+  }
+
+  .btn-primary{
+    @apply bg-black text-white
+  }
+
+  .btn-text{
+    @apply text-black bg-transparent
+  }
+
+  .hero-ring{
+    @apply absolute inset-0 border-2 border-sky-400/40 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full shadow-[0_0px_30px_inset] shadow-sky-200/40
+  }
+
+  .rotate-135{
+    transform: rotate(135deg);
+  }
+
+  .-rotate-135{
+    transform: rotate(-135deg);
+  } 
+
+  .animate-reverse-spin{
+    rotate: -90deg;
+    animation: rev-spin 26s linear infinite;
+  }	
+
+  @keyframes rev-spin {
+    from {
+      transform: rotate(360deg);
+    }
+    to {
+      transform: rotate(0deg);
+    }
+  }
+}
  
 @layer base {
   * {
@@ -80,6 +120,14 @@ body,
     @apply bg-background text-foreground;
   }
 }
+
+/* .rotate-135{
+  transform: rotate(135deg);
+}
+
+.-rotate-135{
+  transform: rotate(-135deg);
+} */
 
 .ql-container{
   font-size: 98% !important;

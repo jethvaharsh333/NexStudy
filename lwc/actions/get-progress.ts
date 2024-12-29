@@ -13,9 +13,9 @@ export const getProgress = async(
             select: {
                 id: true,
             }
-        })
+        });
 
-        
+        console.log("publishedChapters: "+publishedChapters);
 
         const publishedChaptersIds = publishedChapters.map((chapter) => chapter.id);
 

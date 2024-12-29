@@ -24,7 +24,7 @@ const ChapterIdPage = async({
     const {
         chapter,
         course,
-        muxData,
+        // videoUrl,
         attachments,
         nextChapter,
         userProgress,
@@ -38,6 +38,8 @@ const ChapterIdPage = async({
     if(!chapter || !course){
         return redirect("/dashboard");
     }
+
+    console.log("videoUrl"+chapter?.videoUrl);
 
     const isLocked = !chapter.isFree && !purchase;
     const completeOnEnd = !!purchase && !userProgress?.isCompleted;
@@ -60,10 +62,11 @@ const ChapterIdPage = async({
                 <div className="p-4">
                     <VideoPlayer
                         chapterId={params.chapterId}
-                        title={chapter.title}
+                        title = {chapter.title}
+                        // videoUrl = {chapter.videoUrl!}
                         courseId={params.courseId}
                         nextChapterId={nextChapter?.id}
-                        playbackId={muxData?.playbackId!}
+                        playbackId={chapter.videoUrl!}
                         isLocked = {isLocked}
                         completeOnEnd={completeOnEnd}
                     />

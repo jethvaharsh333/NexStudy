@@ -1,19 +1,26 @@
+import { Feature } from "./_components/feature";
 import Footer from "./_components/footer";
+import { Header } from "./_components/Header";
+import { Hero } from "./_components/Hero";
 import Navbar from "./_components/navbar";
+import { Student } from "./_components/student";
+import { StudentTestimonial } from "./_components/student-testimonial";
+import { Teacher } from "./_components/teacher";
 
 const WholeLayout = ({children}:{children:React.ReactNode}) => {
     return(
-        <div className="h-full  w-full">
-            <div className="h-[80px] fixed z-50 w-full inset-y-0 font-inter bg-white">
-                <Navbar/>
-            </div>
-            <div className="pt-[80px] w-full">
-                {children}
-            </div>
-            <div className="w-full">
-                <Footer/>
-            </div>
-        </div>
+        
+        <>
+            <Header/>
+            <Hero/>
+            <Feature/>
+            <Student/>
+            <Teacher/>
+            <StudentTestimonial/>
+            {/* <div className="h-screen">
+
+            </div> */}
+        </>
     )
 }
 

@@ -37,6 +37,7 @@ const formSchema = z.object({
 
 export const CategoryForm = ({initialData, courseId, options}:CategoryFormProps) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [categoryId, setCategoryId] = useState(initialData.categoryId);
 
     const toggleEdit = () => setIsEditing((current) => !current);
 
@@ -53,17 +54,19 @@ export const CategoryForm = ({initialData, courseId, options}:CategoryFormProps)
 
     const onSubmit = async(values: z.infer<typeof formSchema>) => {
         try{
-            await axios.patch(`/api/courses/${courseId}`, values);
+            const {data} = await axios.patch(`/api/courses/${courseId}`, values);
+            console.log(data);
+            setCategoryId(data.categoryId);
             toast.success("Course updated");
             toggleEdit();
-            router.refresh();
+            // router.refresh();
         }
         catch(error){
             toast.error("Something went wrong");
         }
     };
 
-    const selectedOption = options.find((option) => option.value === initialData.categoryId);
+    const selectedOption = options.find((option) => option.value === categoryId);
 
     return (
         <div className="mt-6 border bg-slate-100 rounded-md p-4">
@@ -83,7 +86,7 @@ export const CategoryForm = ({initialData, courseId, options}:CategoryFormProps)
             {!isEditing && (
                 <p className={cn(
                     "text-sm mt-2",
-                    !initialData.categoryId && "text-slate-500 italic"
+                    !categoryId && "text-slate-500 italic"
                 )}>
                     {selectedOption?.label || "No category"}
                 </p>

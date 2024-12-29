@@ -5,7 +5,7 @@ const { PrismaClient } = require("@prisma/client");
 // dotenv.config();
 
 const database = new PrismaClient();
-console.log("DATABASE_URL:", process.env.DATABASE_URL);
+// console.log("DATABASE_URL:", process.env.DATABASE_URL);
 async function main() {
     try{
         await database.category.deleteMany();
@@ -21,7 +21,7 @@ async function main() {
             ],
         });
 
-        console.log("success");
+        // console.log("success");
     }
     catch(error){
         console.log("Error seeding the database categories", error);

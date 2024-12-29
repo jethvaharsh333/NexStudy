@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 interface ChapterActionsProps{
@@ -13,26 +13,34 @@ interface ChapterActionsProps{
     courseId: string;
     chapterId: string;
     isPublished: boolean;
+    onPublishedChange: (published: boolean) => void; 
 }
 
-export const ChapterActions = ({chapterId, courseId, disabled, isPublished} : ChapterActionsProps) => {
+export const ChapterActions = ({chapterId, courseId, disabled, isPublished, onPublishedChange} : ChapterActionsProps) => {
     
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+    const [published, setPublished] = useState(isPublished);
+
+    useEffect(() => {
+        setPublished(isPublished);
+      }, [isPublished]);
 
     const onClick = async () => {
         try{
             setIsLoading(true);
-            if(isPublished){
+            if(published){
                 await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}/unpublish`);
                 toast.success("Chapter unpublished");
             }
             else{
                 await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}/publish`);
                 toast.success("Chapter published");
+                // router.replace("/dashboard/");
             }
-
-            router.refresh();
+            onPublishedChange(!published);
+            setPublished(!published);
+            // router.refresh();
         }
         catch{
             toast.error("Something went wrong");
@@ -61,7 +69,7 @@ export const ChapterActions = ({chapterId, courseId, disabled, isPublished} : Ch
     return(
         <div className="flex items-center gap-x-2">
             <Button onClick={onClick} disabled={disabled || isLoading} variant="outline" size="sm">
-                {isPublished ? "Unpublish" : "Publish"}
+                {published ? "Unpublish" : "Publish"}
             </Button>
             <ConfirmModal onConfirm={onDelete}>
                 <Button size="sm" disabled={isLoading}>

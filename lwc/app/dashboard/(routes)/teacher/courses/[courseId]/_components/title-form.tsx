@@ -36,6 +36,7 @@ interface TitleFormProps {
 
 const TitleForm = ({initialData, courseId}:TitleFormProps) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [title, setTitle] = useState(initialData.title);
 
     const toggleEdit = () => setIsEditing((current) => !current);
 
@@ -50,10 +51,10 @@ const TitleForm = ({initialData, courseId}:TitleFormProps) => {
 
     const onSubmit = async(values: z.infer<typeof formSchema>) => {
         try{
-            await axios.patch(`/api/courses/${courseId}`, values);
+            const { data } = await axios.patch(`/api/courses/${courseId}`, values);
+            setTitle(data.title);
             toast.success("Course updated");
             toggleEdit();
-            router.refresh();
         }
         catch(error){
             toast.error("Something went wrong");
@@ -77,7 +78,7 @@ const TitleForm = ({initialData, courseId}:TitleFormProps) => {
             </div>
             {!isEditing && (
                 <p className="text-sm mt-2">
-                    {initialData.title}
+                    {title}
                 </p>
             )}
             {isEditing && (
@@ -95,7 +96,7 @@ const TitleForm = ({initialData, courseId}:TitleFormProps) => {
                                     <Input disabled={isSubmitting} placeholder="e.g. 'Advanced web development'" {...field} />
                                 </FormControl>
                             </FormItem>
-                         )} 
+                         )}
                         />
                         <div className="flex items-center gap-x-2">
                             <Button disabled={!isValid || isSubmitting} type="submit">

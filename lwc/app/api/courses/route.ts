@@ -30,10 +30,3 @@ export async function POST(req: Request,){
         return new NextResponse("internal error", { status: 500 });
     }
 }
-
-// export async function GET(req: Request){
-//     try{
-//         const userId = await currentUserId();
-//         const {completedCourses, coursesInProgress} = await getDashboardCourses(userId);
-//     }
-// }  

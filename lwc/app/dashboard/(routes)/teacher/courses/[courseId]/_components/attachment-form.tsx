@@ -26,6 +26,7 @@ interface AttachmentFormProps {
 export const AttachmentForm = ({initialData, courseId}:AttachmentFormProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const [deletingId, setDeletingId] = useState<string | null>(null);
+    const [attachments, setAttachments] = useState<Attachment[]>((initialData.attachments || []));
 
     const toggleEdit = () => setIsEditing((current) => !current);
 
@@ -33,10 +34,10 @@ export const AttachmentForm = ({initialData, courseId}:AttachmentFormProps) => {
 
     const onSubmit = async(values: z.infer<typeof formSchema>) => {
         try{
-            await axios.post(`/api/courses/${courseId}/attachments`, values);
+            const {data} = await axios.post(`/api/courses/${courseId}/attachments`, values);
+            setAttachments(data.attachments);
             toast.success("Course updated");
             toggleEdit();
-            router.refresh();
         }
         catch(error){
             toast.error("Something went wrong");
@@ -46,9 +47,9 @@ export const AttachmentForm = ({initialData, courseId}:AttachmentFormProps) => {
     const onDelete = async (id: string) => {
         try{
             setDeletingId(id);
-            await axios.delete(`/api/courses/${courseId}/attachments/${id}`);
+            const {data} = await axios.delete(`/api/courses/${courseId}/attachments/${id}`);
+            setAttachments(data.attachments);
             toast.success("Attachment deleted");
-            router.refresh();
         }
         catch(error){
             toast.error("Something went wrong")
@@ -76,14 +77,14 @@ export const AttachmentForm = ({initialData, courseId}:AttachmentFormProps) => {
             </div>
             {!isEditing && (
                 <>
-                    {initialData.attachments.length === 0 && (
+                    {attachments && attachments.length === 0 && (
                         <p className="text-sm mt-2 text-slate-500 italic">
                             No attachments yet
                         </p>
                     )}
-                    {initialData.attachments.length > 0 && (
+                    {attachments && attachments.length > 0 && (
                         <div className="space-y-2">
-                            {initialData.attachments.map((attachment) =>(
+                            {attachments.map((attachment) =>(
                                 <div key={attachment.id} className="flex items-center p-3 w-full bg-sky-100 border-sky-200 border text-sky-700 rounded-md">
                                     <File className="h-4 w-4 mr-2 flex-shrink-0" />
                                     <p className="text-xs line-clamp-1" >

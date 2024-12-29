@@ -60,5 +60,3 @@ export const CourseSidebar = async({
         </div>
     )
 }
-
-//8.13.18

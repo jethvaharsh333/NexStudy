@@ -1,13 +1,15 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { formatPrice } from "@/lib/format";
 
 interface DataCardProps{
     value: number;
     label: string;
     shouldFormat?: boolean;
+    loading: boolean;
 }
 
-export const DataCard = ({label, value, shouldFormat}: DataCardProps) => {
+export const DataCard = ({label, value, shouldFormat, loading}: DataCardProps) => {
     return(
         <div>
             <Card>
@@ -18,7 +20,13 @@ export const DataCard = ({label, value, shouldFormat}: DataCardProps) => {
                 </CardHeader>
                 <CardContent>
                     <div className="text-2xl font-bold">
-                        {shouldFormat ? formatPrice(value) : value}
+                        {loading ? (
+                            <div className="mt-1">
+                                <Skeleton className="pt-1 h-[24px] w-[74px] rounded-3xl"/>
+                            </div>
+                        ) : (
+                            shouldFormat ? formatPrice(value) : value
+                        )}
                     </div>
                 </CardContent>
             </Card>

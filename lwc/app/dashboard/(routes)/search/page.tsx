@@ -1,11 +1,17 @@
+"use client"
 import { db } from "@/lib/db";
 import { Categories } from "./_components/categories";
 import { SearchInput } from "@/components/search-input";
 import { getCourses } from "@/actions/get-courses";
 import { auth } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { CoursesList } from "@/components/courses-list";
 import { currentUserId } from "@/lib/auth";
+import { useEffect, useState } from "react";
+import { Category } from "@prisma/client";
+import { CourseWithProgressWithCategory } from "@/types";
+import axios from "axios";
+import { useCurrentUserId } from "@/hooks/use-current-user-id";
 
 interface SearchPageProps {
     searchParams: {
@@ -14,25 +20,58 @@ interface SearchPageProps {
     }
 }
 
-const Searchpage = async({
-    searchParams
-}: SearchPageProps) => {
-    const userId  = await currentUserId();
+const SearchPage = ({ searchParams }: SearchPageProps) => {
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [courses, setCourses] = useState<CourseWithProgressWithCategory[]>([]);
+    const [loadingCourses, setLoadingCourses] = useState(true);
+    const [loadingCategories, setLoadingCategories] = useState(true);
 
-    if(!userId){
-        return redirect("/dashboard");
-    }
+    const router = useRouter();
+    const userId = useCurrentUserId();
 
-    const categories = await db.category.findMany({
-        orderBy: {
-            name: "asc"
+    useEffect(() => {
+        if (!userId) {
+            router.push("/dashboard");
         }
-    });
+    }, [userId, router]);
+    
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get("/api/actions/get-categories");
+                setCategories(response.data);
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+            } finally {
+                setLoadingCategories(false);
+            }
+        };
 
-    const courses = await getCourses({
-        userId,
-        ...searchParams,
-    });
+        const fetchCourses = async () => {
+            try {
+                if(!userId){
+                    router.push("/dashboard");
+                    return;
+                }
+                const queryString = new URLSearchParams({
+                    userId,
+                    ...searchParams,
+                }).toString();
+
+                console.log("queryString\n",queryString);
+                const response = await axios.get(`/api/actions/get-courses?${queryString}`);
+                setCourses(response.data);
+                console.log(response.data);
+            } catch (error) {
+                console.error("Error fetching courses:", error);
+            } finally {
+                setLoadingCourses(false);
+            }
+        };
+
+        fetchCategories();
+        fetchCourses();
+    }, [userId, searchParams])
 
     return (  
         <>
@@ -40,11 +79,15 @@ const Searchpage = async({
                 <SearchInput/>
             </div>
             <div className="p-6 space-y-4">
-                <Categories items={categories} />
-                <CoursesList items={courses} />
+                <div>
+                    <Categories items={categories} loading={loadingCategories} />
+                </div>
+                <div>
+                    <CoursesList items={courses} loading={loadingCourses} />
+                </div>
             </div>
         </>
     );
 }
- 
-export default Searchpage;
+
+export default SearchPage;

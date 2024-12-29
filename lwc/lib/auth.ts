@@ -7,6 +7,7 @@ export const currentUser = async() => {
 
 export const currentUserId = async() => {
     const session = await auth();
+    // console.log(session?.user.id);
     return session?.user.id;
 };
 

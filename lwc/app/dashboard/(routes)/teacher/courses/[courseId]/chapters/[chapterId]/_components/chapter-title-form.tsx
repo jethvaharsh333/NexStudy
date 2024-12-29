@@ -32,6 +32,7 @@ interface ChapterTitleFormProps {
 
 export const ChapterTitleForm = ({initialData, courseId, chapterId}:ChapterTitleFormProps) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [title, setTitle] = useState(initialData.title);
 
     const toggleEdit = () => setIsEditing((current) => !current);
 
@@ -46,10 +47,11 @@ export const ChapterTitleForm = ({initialData, courseId, chapterId}:ChapterTitle
 
     const onSubmit = async(values: z.infer<typeof formSchema>) => {
         try{
-            await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
+            const { data } = await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
+            setTitle(data.title);
             toast.success("Chapter updated");
             toggleEdit();
-            router.refresh();
+            // router.refresh();
         }
         catch(error){
             toast.error("Something went wrong");
@@ -73,7 +75,7 @@ export const ChapterTitleForm = ({initialData, courseId, chapterId}:ChapterTitle
             </div>
             {!isEditing && (
                 <p className="text-sm mt-2">
-                    {initialData.title}
+                    {title}
                 </p>
             )}
             {isEditing && (

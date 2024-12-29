@@ -29,6 +29,10 @@ export const ChaptersList = ({
     const [chapters, setChapters] = useState(items);
 
     useEffect(() => {
+        setChapters(items); // Sync with parent updates
+      }, [items])
+      
+    useEffect(() => {
         setIsMounted(true);
     }, []);
 

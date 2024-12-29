@@ -53,9 +53,9 @@ const ContactUs = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
 
     try {
-      console.log(values);
+      // console.log(values);
       await axios.post("/api/contactus", values);
-      console.log(values);
+      // console.log(values);
       toast.success("Submitted");
     }
     catch {

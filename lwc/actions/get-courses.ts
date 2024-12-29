@@ -49,7 +49,7 @@ export const getCourses = async({
             }
         });
 
-        // console.log(courses);
+        console.log("courses: ",courses);
 
         const coursesWithProgress: CoursesWithProgressWithCategory[] = await Promise.all(
             courses.map(async course => {

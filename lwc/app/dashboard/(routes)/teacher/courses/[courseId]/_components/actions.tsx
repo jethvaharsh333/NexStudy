@@ -2,28 +2,35 @@
 
 import { ConfirmModal } from "@/components/modals/confirm-modal";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useConfettiStore } from "@/hooks/use-confetti-store";
 import axios from "axios";
 import { Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 interface ActionsProps{
     disabled: boolean;
     courseId: string;
     isPublished: boolean;
+    onPublishedChange: (published: boolean) => void; 
 }
 
-export const Actions = ({courseId, disabled, isPublished} : ActionsProps) => {
+export const Actions = ({courseId, disabled, isPublished, onPublishedChange} : ActionsProps) => {
     const router = useRouter();
     const confetti = useConfettiStore();
     const [isLoading, setIsLoading] = useState(false);
+    const [published, setPublished] = useState(isPublished);
+
+    useEffect(() => {
+        setPublished(isPublished);
+    }, [isPublished]);
 
     const onClick = async () => {
         try{
             setIsLoading(true);
-            if(isPublished){
+            if(published){
                 await axios.patch(`/api/courses/${courseId}/unpublish`);
                 toast.success("Course unpublished");   
             }
@@ -32,7 +39,9 @@ export const Actions = ({courseId, disabled, isPublished} : ActionsProps) => {
                 toast.success("Course published");
                 confetti.onOpen();
             }
-            router.refresh();
+            onPublishedChange(!published);
+            setPublished(!published);
+            // router.refresh();
         }
         catch{
             toast.error("Something went wrong");
@@ -48,7 +57,7 @@ export const Actions = ({courseId, disabled, isPublished} : ActionsProps) => {
             await axios.delete(`/api/courses/${courseId}`);
             toast.success("Course deleted");
             router.refresh();
-            router.push(`/teacher/courses`);
+            router.push(`/dashboard/teacher/courses`);
         }
         catch(error){
             toast.error("Something went wrong");
@@ -61,7 +70,7 @@ export const Actions = ({courseId, disabled, isPublished} : ActionsProps) => {
     return(
         <div className="flex items-center gap-x-2">
             <Button onClick={onClick} disabled={disabled || isLoading} variant="outline" size="sm">
-                {isPublished ? "Unpublish" : "Publish"}
+                {published ? "Unpublish" : "Publish"}
             </Button>
             <ConfirmModal onConfirm={onDelete}>
                 <Button size="sm" disabled={isLoading}>

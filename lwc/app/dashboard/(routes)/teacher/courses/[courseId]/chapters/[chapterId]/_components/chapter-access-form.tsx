@@ -35,6 +35,7 @@ const formSchema = z.object({
 
 export const ChapterAccessForms = ({initialData, courseId, chapterId}:ChapterAccessFormsProps) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [isFree, setIsFree] = useState(initialData.isFree);
 
     const toggleEdit = () => setIsEditing((current) => !current);
 
@@ -43,7 +44,7 @@ export const ChapterAccessForms = ({initialData, courseId, chapterId}:ChapterAcc
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            isFree: !!initialData.isFree
+            isFree: !!isFree
         }
     });
 
@@ -51,10 +52,11 @@ export const ChapterAccessForms = ({initialData, courseId, chapterId}:ChapterAcc
 
     const onSubmit = async(values: z.infer<typeof formSchema>) => {
         try{
-            await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
+            const { data } = await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
+            setIsFree(data.isFree);
             toast.success("Chapter updated");
             toggleEdit();
-            router.refresh();
+            // router.refresh();
         }
         catch(error){
             toast.error("Something went wrong");
@@ -79,13 +81,13 @@ export const ChapterAccessForms = ({initialData, courseId, chapterId}:ChapterAcc
             {!isEditing && (
                 <p className={cn(
                     "text-sm mt-2",
-                    !initialData.isFree && "text-slate-500 italic"
+                    !isFree && "text-slate-500 italic"
                 )}>
-                    {initialData.isFree ? (
+                    {isFree ? (
                         <>This chapter is free for preview</>
                     ) : (
                         <>This chapter is not free</>
-                    ) }
+                    )}
                 </p>
             )}
             {isEditing && (

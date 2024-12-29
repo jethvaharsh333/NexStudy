@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Chapter, Course } from "@prisma/client";
 import { ChaptersList } from "./chapters-list";
+import { Dispatch, SetStateAction } from "react";
 
 const formSchema = z.object({
     title: z.string().min(1),
@@ -28,9 +29,10 @@ const formSchema = z.object({
 interface ChaptersFormProps {
     initialData: Course & { chapters: Chapter[] };
     courseId: string;
+    onChapterAdded: (newChapter: Chapter) => void;
 }
 
-export const ChaptersForm = ({initialData, courseId}:ChaptersFormProps) => {
+export const ChaptersForm = ({initialData, courseId, onChapterAdded}:ChaptersFormProps) => {
     const [isCreating, setIsCreating] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
 
@@ -51,10 +53,12 @@ export const ChaptersForm = ({initialData, courseId}:ChaptersFormProps) => {
 
     const onSubmit = async(values: z.infer<typeof formSchema>) => {
         try{
-            await axios.post(`/api/courses/${courseId}/chapters`, values);
+            const response = await axios.post(`/api/courses/${courseId}/chapters`, values);
+            const newChapter = response.data as Chapter;
+            onChapterAdded(newChapter);
             toast.success("Chapter updated");
             toggleCreating();
-            router.refresh();
+            // router.refresh();
         }
         catch(error){
             toast.error("Something went wrong");

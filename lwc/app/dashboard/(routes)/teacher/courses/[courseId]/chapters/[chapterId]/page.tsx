@@ -1,3 +1,4 @@
+"use client"
 import { auth } from "@clerk/nextjs";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -13,24 +14,42 @@ import { Banner } from "@/components/ui/banner";
 import { ChapterActions } from "./_components/chapter-actions";
 // import { currentUserIdId } from "@/hooks/use-current-user-id";
 import { currentUserId } from "@/lib/auth";
+import { Chapter } from "@prisma/client";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import SkeletonChapterEdit from "./_components/skeleton-chapter-edit";
+import { useCurrentUserId } from "@/hooks/use-current-user-id";
 
-const ChapterIdPage = async({params}: {params: {courseId: string; chapterId: string}}) => {
-    
-    const userId  = await currentUserId();
+const ChapterIdPage = ({params}: {params: {courseId: string; chapterId: string}}) => {
+    const [loading, setLoading] = useState(true);
+    const userId  = useCurrentUserId(); 
 
     if(!userId){
         return redirect("/");
     }
 
-    const chapter = await db.chapter.findUnique({
-        where: {
-            id: params.chapterId,
-            courseId: params.courseId
-        },
-        include: {
-            muxData: true,
-        },
-    });
+    const [chapter, setChapter] = useState<Chapter>();
+
+    useEffect(() => {
+        const fetchChapter = async() => {
+            setLoading(true);
+            try{
+                const response = await axios.get(`/api/actions/get-teacher-chapter?courseId=${params.courseId}&chapterId=${params.chapterId}`);
+                setChapter(response.data);
+            }catch(error){  
+                console.log("Chapter data error");
+            }finally{
+                setLoading(false);
+            }
+        }
+
+        // handlePublishedChange();
+        fetchChapter();
+    }, [userId, params.courseId, params.chapterId]);
+
+    if(loading){
+        return <SkeletonChapterEdit/>;
+    }
 
     if(!chapter){
         return redirect("/dashboard/teacher/courses");
@@ -49,6 +68,10 @@ const ChapterIdPage = async({params}: {params: {courseId: string; chapterId: str
     const completionText = `(${completedFields}/${totalFields})`;
 
     const isComplete = requiredFields.every(Boolean);
+
+    const handlePublishedChange = (published: boolean) => {
+        setChapter(prevChapter => prevChapter ? { ...prevChapter, isPublished: published } : undefined);
+    };
 
     return (  
         <>
@@ -71,7 +94,7 @@ const ChapterIdPage = async({params}: {params: {courseId: string; chapterId: str
                                     Complete all fields {completionText}
                                 </span>
                             </div>
-                            <ChapterActions disabled={!isComplete} courseId={params.courseId} chapterId={params.chapterId} isPublished={chapter.isPublished} />
+                            <ChapterActions disabled={!isComplete} courseId={params.courseId} chapterId={params.chapterId} isPublished={chapter.isPublished} onPublishedChange={handlePublishedChange}/>
                         </div>
                     </div>
                 </div>
