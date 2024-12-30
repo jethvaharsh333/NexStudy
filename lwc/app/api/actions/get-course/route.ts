@@ -39,7 +39,7 @@ export async function GET(req: Request, res:Response){
 
         console.log("course api: "+course);
         
-        return NextResponse.json(course);
+        return NextResponse.json(course, { status: 200 });
     }catch(error){
         console.error("Error in GET handler:", error);
         return new NextResponse("Internal Server Error", { status: 500 });

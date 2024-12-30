@@ -16,11 +16,9 @@ export async function GET(req: Request, res:Response){
             }
         });
 
-        return NextResponse.json(categories);
+        return NextResponse.json(categories, { status: 200 });
     }catch(error){
         console.log("[GET_CATEGORIES]",error);
-        return{
-            categories: {}
-        }
+        return NextResponse.json({ categories: {} }, { status: 500 });
     }
 }

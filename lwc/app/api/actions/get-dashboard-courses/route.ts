@@ -41,13 +41,13 @@ export async function GET(req: Request, res:Response){
 
         const completedCourses = courses.filter((course) => course.progress === 100);
         const coursesInProgress = courses.filter((course) => (course.progress ?? 0) < 100);
-        return NextResponse.json({completedCourses, coursesInProgress});
+        return NextResponse.json({completedCourses, coursesInProgress}, { status: 200 });
     }
     catch(error){
         console.log("[GET_DASHBOARD_COURSES]",error);
-        return{
-            completedCourses: [],
-            coursesInProgress: [],
-        }
+        return NextResponse.json(
+            { completedCourses: [], coursesInProgress: [] }, 
+            { status: 500 }
+          );  
     }
 }

@@ -1,120 +1,248 @@
-"use client"
+// "use client"
 
-import { Course } from "@prisma/client"
-import { ColumnDef } from "@tanstack/react-table"
+// import { Course } from "@prisma/client"
+// import { ColumnDef } from "@tanstack/react-table"
 
-import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react"
+// import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react"
+// import { Button } from "@/components/ui/button";
+// import {
+//     DropdownMenu,
+//     DropdownMenuContent,
+//     DropdownMenuItem,
+//     DropdownMenuTrigger
+// } from "@/components/ui/dropdown-menu"
+// import Link from "next/link";
+// import { Badge } from "@/components/ui/badge";
+// import { cn } from "@/lib/utils";
+// import { useState } from "react";
+
+// export const columns: ColumnDef<Course>[] = [
+//   {
+//     accessorKey: "title",
+//     header: ({ column }) => {
+//         return (
+//             <Button
+//                 variant="ghost"
+//                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+//             >
+//                 Title
+//                 <ArrowUpDown className="ml-2 h-4 w-4" />
+//             </Button>
+//         );
+//     },
+//   },
+//   {
+//     accessorKey: "price",
+//     header: ({ column }) => {
+//         return (
+//             <Button
+//                 variant="ghost"
+//                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+//             >
+//                 Price
+//                 <ArrowUpDown className="ml-2 h-4 w-4" />
+//             </Button>
+//         );
+//     },
+//     cell: ({ row }) => {
+//         const price = parseFloat(row.getValue("price") || "0");
+//         const formatted = new Intl.NumberFormat("en-US", {
+//             style: "currency",
+//             currency: "USD"
+//         }).format(price);
+
+//         return <div>{formatted}</div>;
+//     }
+//   },
+//   {
+//     accessorKey: "isPublished",
+//     header: ({ column }) => {
+//         return (
+//             <Button
+//                 variant="ghost"
+//                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+//             >
+//                 Published
+//                 <ArrowUpDown className="ml-2 h-4 w-4" />
+//             </Button>
+//         );
+//     },
+//     cell: ({ row }) => {
+//         const isPublished = row.getValue("isPublished") || false;
+//         return(
+//             <Badge className={cn(
+//                 "bg-slate-500",
+//                 isPublished && 'bg-sky-700'
+//             )}>
+//                 {isPublished ? "Published" : "Draft"}
+//             </Badge>
+//         )
+//     }
+//   },
+//   {
+//     id: "actions",
+//     cell: ({ row }) => {
+//         const { id } = row.original;
+//         const [loading, setLoading] = useState(false);
+
+//         const handleClick = (e: React.MouseEvent) => {
+//             if (loading) {
+//                 e.preventDefault();
+//                 return;
+//             }
+//             setLoading(true);
+//         };
+
+//         return(
+//             <DropdownMenu>
+//                 <DropdownMenuTrigger asChild>
+//                     <Button variant="ghost" className="h-4 w-8 p-0">
+//                         <span className="sr-only">Open menu</span>
+//                         <MoreHorizontal className="h-4 w-4"/>
+//                     </Button>
+//                 </DropdownMenuTrigger>
+//                 <DropdownMenuContent align="end">
+//                     <Link href={`/dashboard/teacher/courses/${id}`} prefetch>
+//                         <DropdownMenuItem onClick={handleClick} className={cn(loading? "opacity-50 cursor-not-allowed" : "")}>
+//                         {loading ? (
+//                             <span className="loader mr-2" />
+//                         ) : (
+//                             <Pencil className="h-4 w-4 mr-2" />
+//                         )}
+//                             Edit
+//                         </DropdownMenuItem>
+//                     </Link>
+//                 </DropdownMenuContent>
+//             </DropdownMenu>
+//         )
+//     }
+//   }
+// ]
+
+"use client";
+
+import { Course } from "@prisma/client";
+import { ColumnDef } from "@tanstack/react-table";
+
+import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import React, { useState } from "react";
 
-export const columns: ColumnDef<Course>[] = [
-  {
-    accessorKey: "title",
-    header: ({ column }) => {
-        return (
-            <Button
-                variant="ghost"
-                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            >
-                Title
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
-        );
-    },
-  },
-  {
-    accessorKey: "price",
-    header: ({ column }) => {
-        return (
-            <Button
-                variant="ghost"
-                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            >
-                Price
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
-        );
-    },
-    cell: ({ row }) => {
-        const price = parseFloat(row.getValue("price") || "0");
-        const formatted = new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD"
-        }).format(price);
+// Separate cell component for actions
+const ActionsCell: React.FC<{ id: string }> = ({ id }) => {
+    const [loading, setLoading] = useState(false);
 
-        return <div>{formatted}</div>;
-    }
-  },
-  {
-    accessorKey: "isPublished",
-    header: ({ column }) => {
-        return (
-            <Button
-                variant="ghost"
-                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            >
-                Published
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
-        );
-    },
-    cell: ({ row }) => {
-        const isPublished = row.getValue("isPublished") || false;
-        return(
-            <Badge className={cn(
-                "bg-slate-500",
-                isPublished && 'bg-sky-700'
-            )}>
-                {isPublished ? "Published" : "Draft"}
-            </Badge>
-        )
-    }
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => {
-        const { id } = row.original;
-        const [loading, setLoading] = useState(false);
+    const handleClick = (e: React.MouseEvent) => {
+        if (loading) {
+            e.preventDefault();
+            return;
+        }
+        setLoading(true);
+    };
 
-        const handleClick = (e: React.MouseEvent) => {
-            if (loading) {
-                e.preventDefault();
-                return;
-            }
-            setLoading(true);
-        };
-
-        return(
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-4 w-8 p-0">
-                        <span className="sr-only">Open menu</span>
-                        <MoreHorizontal className="h-4 w-4"/>
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                    <Link href={`/dashboard/teacher/courses/${id}`} prefetch>
-                        <DropdownMenuItem onClick={handleClick} className={cn(loading? "opacity-50 cursor-not-allowed" : "")}>
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-4 w-8 p-0">
+                    <span className="sr-only">Open menu</span>
+                    <MoreHorizontal className="h-4 w-4" />
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+                <Link href={`/dashboard/teacher/courses/${id}`} prefetch>
+                    <DropdownMenuItem
+                        onClick={handleClick}
+                        className={cn(loading ? "opacity-50 cursor-not-allowed" : "")}
+                    >
                         {loading ? (
                             <span className="loader mr-2" />
                         ) : (
                             <Pencil className="h-4 w-4 mr-2" />
                         )}
-                            Edit
-                        </DropdownMenuItem>
-                    </Link>
-                </DropdownMenuContent>
-            </DropdownMenu>
-        )
+                        Edit
+                    </DropdownMenuItem>
+                </Link>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    );
+};
+
+export const columns: ColumnDef<Course>[] = [
+    {
+        accessorKey: "title",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Title
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
+    },
+    {
+        accessorKey: "price",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Price
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
+        cell: ({ row }) => {
+            const price = parseFloat(row.getValue("price") || "0");
+            const formatted = new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD"
+            }).format(price);
+
+            return <div>{formatted}</div>;
+        }
+    },
+    {
+        accessorKey: "isPublished",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Published
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
+        cell: ({ row }) => {
+            const isPublished = row.getValue("isPublished") || false;
+            return (
+                <Badge
+                    className={cn(
+                        "bg-slate-500",
+                        isPublished && "bg-sky-700"
+                    )}
+                >
+                    {isPublished ? "Published" : "Draft"}
+                </Badge>
+            );
+        }
+    },
+    {
+        id: "actions",
+        cell: ({ row }) => <ActionsCell id={row.original.id} />
     }
-  }
-]
+];

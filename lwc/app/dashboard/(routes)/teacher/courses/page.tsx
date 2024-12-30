@@ -14,19 +14,15 @@ export default function CoursesPage(){
     const [courses, setCourses] = useState<TeacherCourses[]>([]);
     const [loading, setLoading] = useState(true);
 
-    if(!userId){
-        return redirect("/");
-    }
-
     useEffect(() => {
         if (!userId) {
-            router.push("/dashboard");
+            router.push("/");
             return;
         }
 
         const fetchCourses = async() => {
             try{
-                setLoading(false);
+                setLoading(true);
                 const response = await axios.get("/api/actions/get-teacher-courses");
                 setCourses(response.data);
             }catch(error){
@@ -39,6 +35,8 @@ export default function CoursesPage(){
 
         fetchCourses();
     }, [courses, router])
+
+    if (!userId) return null;
 
     return (  
         <div className="p-6">

@@ -130,7 +130,7 @@ export async function GET(req: Request, res:Response){
 
         const coursesWithProgress = await getCourses(queryParams);
 
-        return NextResponse.json(coursesWithProgress);
+        return NextResponse.json(coursesWithProgress,  { status: 200 });
     }catch(error){
         console.error("Error in GET handler:", error);
         return new NextResponse("Internal Server Error", { status: 500 });

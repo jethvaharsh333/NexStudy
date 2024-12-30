@@ -47,7 +47,7 @@ export async function PATCH(
             }
         });
 
-        return NextResponse.json(publishedCourse);
+        return NextResponse.json(publishedCourse, { status: 200 });
     }
     catch(error){
         console.log("[COURSE_ID_PUBLISH]", error);

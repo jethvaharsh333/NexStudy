@@ -18,7 +18,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       if (!userId) {
-        router.push("/dashboard");
+        router.push("/");
         return;
       }
 
@@ -34,15 +34,15 @@ export default function Dashboard() {
     };
 
     if (!userId) {
-      router.push("/dashboard");
+      router.push("/");
       return;
     }
 
     fetchData();
-  }, [userId]);
+  }, [userId, router]);
 
   if (!userId) {
-    return redirect("/dashboard");
+    return redirect("/");
   }
 
   return (

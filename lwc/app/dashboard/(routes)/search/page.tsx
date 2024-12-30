@@ -31,7 +31,7 @@ const SearchPage = ({ searchParams }: SearchPageProps) => {
 
     useEffect(() => {
         if (!userId) {
-            router.push("/dashboard");
+            router.push("/");
         }
     }, [userId, router]);
     
@@ -71,7 +71,7 @@ const SearchPage = ({ searchParams }: SearchPageProps) => {
 
         fetchCategories();
         fetchCourses();
-    }, [userId, searchParams])
+    }, [userId, searchParams, router])
 
     return (  
         <>

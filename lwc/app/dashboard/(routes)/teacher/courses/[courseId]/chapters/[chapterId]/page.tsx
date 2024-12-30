@@ -23,16 +23,16 @@ import { useCurrentUserId } from "@/hooks/use-current-user-id";
 const ChapterIdPage = ({params}: {params: {courseId: string; chapterId: string}}) => {
     const [loading, setLoading] = useState(true);
     const userId  = useCurrentUserId(); 
-
-    if(!userId){
-        return redirect("/");
-    }
-
     const [chapter, setChapter] = useState<Chapter>();
 
     useEffect(() => {
+        setLoading(true);
+        if(!userId){
+            return redirect("/");
+        }
+
         const fetchChapter = async() => {
-            setLoading(true);
+            
             try{
                 const response = await axios.get(`/api/actions/get-teacher-chapter?courseId=${params.courseId}&chapterId=${params.chapterId}`);
                 setChapter(response.data);
@@ -46,6 +46,10 @@ const ChapterIdPage = ({params}: {params: {courseId: string; chapterId: string}}
         // handlePublishedChange();
         fetchChapter();
     }, [userId, params.courseId, params.chapterId]);
+
+    if (!userId) {
+        return null; // Avoid returning hooks conditionally
+    }
 
     if(loading){
         return <SkeletonChapterEdit/>;

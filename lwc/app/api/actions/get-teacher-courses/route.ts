@@ -19,7 +19,7 @@ export async function GET(req:Request, res:Response){
             }
         }) 
 
-        return NextResponse.json(courses);
+        return NextResponse.json(courses,  { status: 200 });
     }catch(error){
         console.log("[COURSE_ID_PUBLISH]", error);
         return new NextResponse("Internal error", { status: 500 });

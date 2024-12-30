@@ -12,7 +12,7 @@ export async function GET(req: Request, res: Response) {
 
         const analytics = await getAnalytics(userId);
 
-        return NextResponse.json(analytics);
+        return NextResponse.json(analytics,  { status: 200 });
     }catch(error){
         console.log("[COURSE_ANALYTICS]", error);
         return new NextResponse("Internal Server Error", {status: 500});
