@@ -402,29 +402,30 @@ export const Feature = () => {
     return (
         <div className="mt-16 py-4">
             {/* <div className="container">  */}
-                <h1 className=" ps-5 2xl:container text-2xl sm:text-4xl text-bold tracking-tight font-bold text-slate-800">
+                <h1 className="ps-5 2xl:container text-2xl sm:text-4xl text-bold tracking-tight font-bold text-slate-800">
                     Why Choose Us?
                 </h1>
             {/* </div> */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 max-w-7xl mx-auto w-full px-3.5 md:px-5 mt-10 max-sm:mt-6 ">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-7xl mx-auto w-full px-3.5 md:px-5 mt-10 max-sm:mt-6 ">
                 <WobbleCard
                     containerClassName="relative col-span-1 lg:col-span-2 h-full bg-neutral-100 h-[300px]"
                     className=""
                 >
                     <div className="bg-blur">
-                        <h2 className="text-left text-balance text-lg md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white max-sm:text-slate-900">
-                            Seamless Experience
+                        <h2 className="text-left text-balance w-auto text-lg md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white [text-shadow:_0_2px_4px_rgb(51_65_85_/_0.8)]">
+                            <p className="w-fit rounded-lg backdrop-blur-[2px]">Seamless Experience</p>
                         </h2>
-                        <p className="mt-4 text-left  text-base/6 text-neutral-200 max-sm:text-slate-900">
+                        <p className="mt-4 text-left  text-base/6 text-white backdrop-blur-[2px] [text-shadow:_0_2px_4px_rgb(51_65_85_/_0.8)]  rounded-2xl">
                             Learn or teach with ease using our intuitive platform.
                         </p>
                     </div>
-                    <div>
-                        <Image
+                    <div className="absolute inset-0 -z-20">
+                        <Image src={Section_2A} alt="linear demo image" className="filter blur-sm"/>
+                        {/* <Image
                             src={Section_2A}
                             alt="linear demo image"
                             className="absolute inset-0 max-sm:scale-y-125  max-sm:h-full sm:-top-[60%] left-0 -z-10 filter blur-sm"
-                        />
+                        /> */}
                     </div>
                 </WobbleCard>
                 <WobbleCard containerClassName="col-span-1 min-h-[300px]">
@@ -454,20 +455,30 @@ export const Feature = () => {
                     containerClassName="relative col-span-1 lg:col-span-2 h-full bg-neutral-100 h-[300px]"
                     className=""
                 >
-                    <div className="z-20">
+                    <div className="bg-blur">
+                        <h2 className="text-left text-balance w-auto text-lg md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white [text-shadow:_0_2px_4px_rgb(51_65_85_/_0.8)]">
+                            <p className="w-fit rounded-lg backdrop-blur-[2px]">Secure and Reliable</p>
+                        </h2>
+                        <p className="mt-4 text-left  text-base/6 text-white backdrop-blur-[2px] [text-shadow:_0_2px_4px_rgb(51_65_85_/_0.8)]  rounded-2xl">
+                            Safe transactions and 24/7 support.
+                        </p>
+                    </div>
+                    {/* <div className="z-20">
                         <h2 className="max-sm:text-right text-balance text-lg md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white max-sm:text-slate-900">
                             Secure and Reliable
                         </h2>
                         <p className="mt-4 max-sm:text-right text-base/6 text-neutral-200 max-sm:text-slate-900">
                             Safe transactions and 24/7 support.
                         </p>
-                    </div>
-                    <div>
-                        <Image
+                    </div> */}
+                    <div className="absolute inset-0 -z-20">
+                        <Image src={Transaction} alt="linear demo image" className="filter h-full blur-sm"/>
+
+                        {/* <Image
                             src={Transaction}
                             alt="linear demo image"
                             className="absolute inset-0 max-sm:scale-150 w-full max-md:h-full md:-top-[60%] left-0 -z-10 filter blur-sm"
-                        />
+                        /> */}
                     </div>
                 </WobbleCard>
             </div>

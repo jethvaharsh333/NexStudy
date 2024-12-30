@@ -11,7 +11,7 @@ export const StudentTestimonial = () => {
             <h1 className="ps-5 2xl:container text-2xl sm:text-4xl text-bold tracking-tight font-bold text-slate-800">
                 What Our Students Say
             </h1>
-            <div className="grid grid-cols-3 gap-4 place-content-between max-w-7xl mx-auto w-full px-3.5 md:px-5 mt-10 max-sm:mt-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4 place-content-between max-w-7xl mx-auto w-full px-3.5 md:px-5 mt-10 max-sm:mt-6">
             {data.map((student, index) => (
                 <CardContainer className="inter-var" key={index}>
                     <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1]  h-auto w-auto rounded-xl p-6 border  ">
