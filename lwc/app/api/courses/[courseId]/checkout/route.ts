@@ -12,7 +12,7 @@ export async function POST(
     try{
         const user = await currentUser();
 
-        console.log("API CHECKOUT");
+        // console.log("API CHECKOUT");
 
         if(!user || !user.id || !user.email){
             return new NextResponse("Unauthorized", { status: 401 });
@@ -90,7 +90,7 @@ export async function POST(
             }
         });
         console.log("\nsession.url : ",session.url);
-
+        
         return NextResponse.json({ url: session.url });
     }
     catch(error){

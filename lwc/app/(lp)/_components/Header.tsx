@@ -1,37 +1,72 @@
 "use client";
-import NexStudy from "@/public/logo.svg"
-import MenuIcon from "@/public/assets/menu.svg"
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 
-export const Header = () => {
+import NexStudy from "@/public/logo.svg";
+import MenuIcon from "@/public/assets/menu.svg";
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import MobileSidebar from "./mobile-sidebar";
+
+import { cn } from "@/lib/utils"
+import NavLink from "./nav-link";
+
+export const Header = ({ onHeightChange }: { onHeightChange: (height: number) => void }) => {
   const router = useRouter();
-  const onClick = () => {
-    router.push('/auth/login');
-}
+  const navbarRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  const { scrollY } = useScroll();
+
+  useEffect(() => {
+    if (navbarRef.current) {
+      onHeightChange(navbarRef.current.offsetHeight);
+      console.log(navbarRef.current.id);
+    }
+  }, [onHeightChange]);
+
+  useMotionValueEvent(scrollY, "change", (current) => {
+    if (typeof current === "number") {
+      const direction = current - lastScrollY;
+
+      if (current < 650) {
+        setVisible(true);
+      } else if (direction > 0) {
+        setVisible(false); // Hide on scroll down
+      } else {
+        setVisible(true); // Show on scroll up
+      }
+
+      setLastScrollY(current);
+    }
+  });
+
   return (
-    <header className="sticky top-0 backdrop-blur-sm z-50">
-      <div className="py-5">
-        <div className="container">
-          <div className="flex items-center justify-between">
-            {/* <Image height={130} width={150} alt='logo' src={NexStudy} /> */}
+    <AnimatePresence mode="wait">
+      <motion.div
+        ref={navbarRef}
+        initial={{ opacity: 1, y: 0 }}
+        animate={{
+          y: visible ? 0 : -100,
+          opacity: visible ? 1 : 0,
+        }}
+        transition={{
+          duration: 0.3,
+        }}
+        className="py-4 w-full fixed top-0 backdrop-blur-sm z-50 bg-white/5 shadow-sm"
+      >
+        <div className="container mx-auto pe-10 flex items-center justify-between">
+          <a href="#">
             <NexStudy className="w-40 h-10"/>
-            <MenuIcon className="h-5 w-5 md:hidden"/>
-            {/* <Image  alt='logo' src={MenuIcon} /> */}
-            <nav className="hidden md:flex gap-6 text-black/60 items-center">
-              <a href="#">About</a>
-              <a href="#">Features</a>
-              <a href="#">Customers</a>
-              <a href="#">Help</a>
-              <button onClick={onClick} className="btn btn-primary">
-                Sign In
-              </button>
-              {/* <Button>Get for free</Button> */}
-            </nav>
+          </a>
+          <div className="md:hidden flex items-center">
+            <MobileSidebar />
           </div>
+          <nav className="hidden md:flex gap-6 text-black/60 items-center">
+            <NavLink/>
+          </nav>
         </div>
-      </div>
-    </header>
+      </motion.div>
+    </AnimatePresence>
   );
-};
+};  

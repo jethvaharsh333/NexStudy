@@ -12,8 +12,8 @@ export const Teacher = () => {
     ));
 
     return (
-        <div className="py-4 my-10 lg:min-h-screen">
-                <h1 className="ps-5 2xl:container text-2xl sm:text-4xl text-bold tracking-tight font-bold text-slate-800">
+        <div className="py-4 my-10 lg:min-h-screen" id="teacher">
+                <h1 className="ps-5 xl:container text-2xl sm:text-4xl text-bold tracking-tight font-bold text-slate-800">
                     Transform Knowledge Into Impact 🧑‍🏫
                 </h1>
             <div className="mt-10 max-sm:mt-6">

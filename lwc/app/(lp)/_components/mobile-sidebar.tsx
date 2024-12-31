@@ -29,8 +29,8 @@ const MobileSidebar = () => {
     return(
         <div className="w-full md:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
-                <SheetTrigger className="md:hidden w-full flex justify-end  pe-10 hover:opacity-75 transition" onClick={handleSheetOpen}>
-                    <Menu/>
+                <SheetTrigger className="md:hidden w-full flex justify-end hover:opacity-75 transition" onClick={handleSheetOpen}>
+                    <Menu className="h-7 w-7 p-1 bg-white rounded-md"/>
                 </SheetTrigger>
                 <SheetContent side="right" className="p-0 bg-white">
                     <NavLink/>

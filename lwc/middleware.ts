@@ -28,6 +28,7 @@ import { nullable } from "zod";
 // };
 
 export default auth((req) => {
+  // publicRoutes: ["/api/webhook"]
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 

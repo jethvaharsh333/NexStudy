@@ -7,12 +7,15 @@ import { IconBadge } from "@/components/icon-badge";
 import { FaPeopleArrows } from "react-icons/fa";
 import StudentTwo from "@/public/assets/hero-student2.jpg"
 import Teacher from "@/public/assets/hero-teacher.jpg"
+import { useRouter } from "next/navigation";
 
 export const Hero = () => {
   const words = ["passion", "expertise", "innovation"];
+  const router = useRouter();
+  
 
   return (
-    <section className="grid grid-cols-2 overflow-x-clip mb-2 z-0 ">
+    <section className="grid grid-cols-2 overflow-x-clip mb-2 z-0" id="">
       <div className="max-lg:col-span-2">
         <div className="container"> 
           <h1 className="max-sm:text-center overflow-hidden sm:mt-10 md:mt-10 lg:mt-20 text-5xl py-1 font-bold tracking-tighter bg-gradient-to-b from-black to-[#3e6478] text-transparent bg-clip-text  ">
@@ -24,7 +27,9 @@ export const Hero = () => {
             Learn what you love and teach what you know on a platform that connects passionate learners with expert educators. Together, we create a thriving community where knowledge flows and growth never stops.
           </p>
           <div className="flex items-center gap-3 mt-[30px]">
-            <button className="btn btn-primary">Get for free</button>
+            <button onClick={() => router.push("/auth/login")} className="btn btn-primary">
+              Sign In
+            </button>
             <button className="btn btn-text">
               <span className="">Learn more</span>
               <ArrowIcon className="h-5 w-10 " />

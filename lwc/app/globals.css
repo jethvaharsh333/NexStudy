@@ -97,6 +97,16 @@ body,
     transform: rotate(-135deg);
   } 
 
+  .no-visible-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+  }
+   
+  .no-visible-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
   .animate-reverse-spin{
     rotate: -90deg;
     animation: rev-spin 26s linear infinite;

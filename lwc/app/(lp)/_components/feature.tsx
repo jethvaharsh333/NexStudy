@@ -400,9 +400,9 @@ export const Feature = () => {
     ];
 
     return (
-        <div className="mt-16 py-4">
+        <div className="mt-16 py-4" id="features">
             {/* <div className="container">  */}
-                <h1 className="ps-5 2xl:container text-2xl sm:text-4xl text-bold tracking-tight font-bold text-slate-800">
+                <h1 className="ps-5 xl:container text-2xl sm:text-4xl text-bold tracking-tight font-bold text-slate-800">
                     Why Choose Us?
                 </h1>
             {/* </div> */}
@@ -415,17 +415,13 @@ export const Feature = () => {
                         <h2 className="text-left text-balance w-auto text-lg md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white [text-shadow:_0_2px_4px_rgb(51_65_85_/_0.8)]">
                             <p className="w-fit rounded-lg backdrop-blur-[2px]">Seamless Experience</p>
                         </h2>
-                        <p className="mt-4 text-left  text-base/6 text-white backdrop-blur-[2px] [text-shadow:_0_2px_4px_rgb(51_65_85_/_0.8)]  rounded-2xl">
+                        <p className="mt-4 text-left text-base/6 text-white backdrop-blur-[2px] [text-shadow:_0_2px_4px_rgb(51_65_85_/_0.8)]  rounded-2xl">
                             Learn or teach with ease using our intuitive platform.
                         </p>
                     </div>
-                    <div className="absolute inset-0 -z-20">
+                    <div className="absolute inset-0 lg:-top-[40%] -z-20">
                         <Image src={Section_2A} alt="linear demo image" className="filter blur-sm"/>
-                        {/* <Image
-                            src={Section_2A}
-                            alt="linear demo image"
-                            className="absolute inset-0 max-sm:scale-y-125  max-sm:h-full sm:-top-[60%] left-0 -z-10 filter blur-sm"
-                        /> */}
+                        
                     </div>
                 </WobbleCard>
                 <WobbleCard containerClassName="col-span-1 min-h-[300px]">
@@ -463,22 +459,9 @@ export const Feature = () => {
                             Safe transactions and 24/7 support.
                         </p>
                     </div>
-                    {/* <div className="z-20">
-                        <h2 className="max-sm:text-right text-balance text-lg md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white max-sm:text-slate-900">
-                            Secure and Reliable
-                        </h2>
-                        <p className="mt-4 max-sm:text-right text-base/6 text-neutral-200 max-sm:text-slate-900">
-                            Safe transactions and 24/7 support.
-                        </p>
-                    </div> */}
+                    
                     <div className="absolute inset-0 -z-20">
-                        <Image src={Transaction} alt="linear demo image" className="filter h-full blur-sm"/>
-
-                        {/* <Image
-                            src={Transaction}
-                            alt="linear demo image"
-                            className="absolute inset-0 max-sm:scale-150 w-full max-md:h-full md:-top-[60%] left-0 -z-10 filter blur-sm"
-                        /> */}
+                        <Image src={Transaction} alt="linear demo image" className="lg:h-full lg:w-full filter h-full blur-sm"/>
                     </div>
                 </WobbleCard>
             </div>
