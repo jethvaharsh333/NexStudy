@@ -403,7 +403,7 @@ export const Feature = () => {
         <div className="mt-16 py-4" id="features">
             {/* <div className="container">  */}
                 <h1 className="ps-5 xl:container text-2xl sm:text-4xl text-bold tracking-tight font-bold text-slate-800">
-                    Why Choose Us?
+                    Why NexStudy?
                 </h1>
             {/* </div> */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-7xl mx-auto w-full px-3.5 md:px-5 mt-10 max-sm:mt-6 ">

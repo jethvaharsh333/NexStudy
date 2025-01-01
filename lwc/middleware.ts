@@ -9,6 +9,8 @@ import {
   apiAuthPrefix,
   authRoutes,
   publicRoutes,
+  courseViewPrefix,
+  chapterViewPrefix
 } from "@/routes";
 import { nullable } from "zod";
  
@@ -36,9 +38,16 @@ export default auth((req) => {
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
+  const isCourseViewRoute = nextUrl.pathname.startsWith(courseViewPrefix);
+  const isChapterViewRoute = nextUrl.pathname.includes(chapterViewPrefix)
+
   // console.log("_MY_REQUEST_ : "+ nextUrl + " :: " + isApiAuthRoute + " :: " + isPublicRoute + " :: " + isAuthRoute);
 
   if(isApiAuthRoute){
+    return;
+  }
+
+  if(isCourseViewRoute){
     return;
   }
 
@@ -51,9 +60,11 @@ export default auth((req) => {
 
   if(!isLoggedIn && !isPublicRoute) {
     let callbackUrl = nextUrl.pathname;
+
     if(nextUrl.search){
       callbackUrl += nextUrl.search;
     }
+
     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
     return Response.redirect(new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl));
   }

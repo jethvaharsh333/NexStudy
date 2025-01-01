@@ -17,10 +17,6 @@ const ChapterIdPage = async({
 }) => {
     const userId = await currentUserId();
 
-    if(!userId){
-        return redirect("/dashboard");
-    }
-
     const {
         chapter,
         course,

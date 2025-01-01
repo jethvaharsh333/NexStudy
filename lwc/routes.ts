@@ -11,7 +11,10 @@ export const publicRoutes = [
     "/contactus",
     "/auth/new-verification",
     "/api/uploadthing", 
-    "/api/webhook"
+    "/api/webhook",
+    "/explore-courses",
+    "/api/actions/get-categories",
+    "/api/actions/get-courses",
 ];
 
 /**
@@ -36,6 +39,9 @@ export const authRoutes = [
 
 export const apiAuthPrefix = "/api/auth";
 
+
+export const courseViewPrefix = "/courses";
+export const chapterViewPrefix = "/chapters"
 /**
  * The default redirect path after logging in
  * @type {string}

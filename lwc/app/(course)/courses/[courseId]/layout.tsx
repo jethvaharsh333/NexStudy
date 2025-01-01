@@ -18,10 +18,6 @@ const CourseLayout = async ({
 
     const userId = await currentUserId();
 
-    if (!userId) {
-        return redirect("/");
-    }
-
     const course = await db.course.findUnique({
         where: {
             id: params.courseId,
@@ -32,11 +28,13 @@ const CourseLayout = async ({
                     isPublished: true,
                 },
                 include: {
-                    userProgress: {
-                        where: {
-                            userId
+                    ...(userId && {
+                        userProgress: {
+                            where: {
+                                userId
+                            }
                         }
-                    }
+                    })
                 },
                 orderBy: {
                     position: "asc",
@@ -49,8 +47,8 @@ const CourseLayout = async ({
         return redirect("/dashboard");
     }
 
-    const progressCount = await getProgress(userId, course.id);
-
+    // const progressCount = await getProgress(userId, course.id);
+    const progressCount = userId ? await getProgress(userId, course.id) : null;
     return (
 
         <div className="h-full">
@@ -68,7 +66,7 @@ const CourseLayout = async ({
                 </Suspense>
             </div>
             <main className="md:pl-80 pt-[80px] h-full">
-                <Suspense fallback={<MainContentSkeleton/>}>
+                <Suspense fallback={<MainContentSkeleton />}>
                     {children}
                 </Suspense>
             </main>

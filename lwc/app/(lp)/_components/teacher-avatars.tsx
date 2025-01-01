@@ -1,3 +1,4 @@
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import {
     Avatar,
     AvatarFallback,
@@ -43,13 +44,16 @@ export const TeacherAvatars = () => {
                         <div className="px-2 py-1 flex border  items-center rounded-3xl justify-between" key={index}>
                             <div className="flex items-center gap-x-2">
                                 <div>
+                                    
                                     <Avatar className="w-full">
+                                        {/* <AspectRatio ratio={16/4}> */}
                                         <AvatarImage
                                             src={
                                                 teacher.avatar ||
                                                 "https://res.cloudinary.com/dabitzf0t/image/upload/v1735454147/fy4lhekjgn7fwoaecwpz.jpg"
                                             }
                                         />
+                                        {/* </AspectRatio> */}
                                         <AvatarFallback>CN</AvatarFallback>
                                     </Avatar>
                                 </div>
@@ -68,17 +72,17 @@ export const TeacherAvatars = () => {
 };
 
 const data1 = [
-    { avatar: "", name: "Jude Bellingham" },
-    { avatar: "", name: "David Beckham" },
-    { avatar: "", name: "Vinicius Juniour" },
+    { avatar: "https://res.cloudinary.com/dabitzf0t/image/upload/v1735718836/lwc-project-test/HOME_PAGE/x7ofbpwh84hxw9k9pqpq.jpg", name: "Jude Bellingham" },
+    { avatar: "https://res.cloudinary.com/dabitzf0t/image/upload/v1735709822/lwc-project-test/HOME_PAGE/i4pm4kwv9na0yy76mblq.png", name: "David Beckham" },
+    { avatar: "https://res.cloudinary.com/dabitzf0t/image/upload/v1735718837/lwc-project-test/HOME_PAGE/yso9gjavqhqbztqdgdah.jpg", name: "Vinicius Juniour" },
 ];
 
 const data2 = [
-    { avatar: "", name: "Rodrygo" },
-    { avatar: "", name: "E. Militao" },
-    { avatar: "", name: "Camavinga" },
-    { avatar: "", name: "Ancelloti" },
-    { avatar: "", name: "K. Mbappe" },
+    { avatar: "https://res.cloudinary.com/dabitzf0t/image/upload/v1735718836/lwc-project-test/HOME_PAGE/pjsvbnw4d5p5wj9qwxyt.jpg", name: "Olivia Grace" },
+    { avatar: "https://res.cloudinary.com/dabitzf0t/image/upload/v1735718837/lwc-project-test/HOME_PAGE/ohtmyrowqcypzy2ftfvd.jpg", name: "E. Militao" },
+    { avatar: "https://res.cloudinary.com/dabitzf0t/image/upload/v1735718837/lwc-project-test/HOME_PAGE/gsvahrjzkvjvft6s4d3m.jpg", name: "Sophia Marie " },
+    { avatar: "https://res.cloudinary.com/dabitzf0t/image/upload/v1735719288/lwc-project-test/HOME_PAGE/t8yhqcdvvnvdllbeketp.png", name: "Ancelloti" },
+    { avatar: "https://res.cloudinary.com/dabitzf0t/image/upload/v1735718841/lwc-project-test/HOME_PAGE/p7jhyekyqpufzrbeqpu0.jpg", name: "Ava Nicole" },
 ]
 
 {/* <div className="text-black font-bold text-5xl">

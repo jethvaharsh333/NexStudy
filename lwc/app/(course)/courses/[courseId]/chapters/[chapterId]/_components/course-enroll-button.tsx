@@ -1,6 +1,8 @@
 "use client";
 
+import { LoginButton } from "@/components/auth/login-button";
 import { Button } from "@/components/ui/button";
+import { useCurrentUserId } from "@/hooks/use-current-user-id";
 import { formatPrice } from "@/lib/format";
 import axios from "axios";
 import { useState } from "react";
@@ -16,13 +18,17 @@ export const CourseEnrollButton = ({
     courseId,
 }: CourseEnrollButtonProps) => {
     const [isLoading, setIsLoading] = useState(false);
-
+    const userId = useCurrentUserId();
+    
     const onClick = async() => {
         try{
             setIsLoading(true);
 
-            const response = await axios.post(`/api/courses/${courseId}/checkout`);
+            // if(!userId){
+            //     return;
+            // }
 
+            const response = await axios.post(`/api/courses/${courseId}/checkout`);
             window.location.assign(response.data.url);
         }
         catch(error){
@@ -32,6 +38,12 @@ export const CourseEnrollButton = ({
             setIsLoading(false);
         }
     }
+
+    // if(!userId){
+    //     return <LoginButton>
+    //               <Button size="lg">Sign in</Button>
+    //             </LoginButton>;
+    // }
 
     return(
         <Button

@@ -4,11 +4,12 @@ import { NextResponse } from "next/server";
 
 export async function GET(req: Request, res:Response){
     try{
+        console.log("Hello categories api");
         const userId = await currentUserId();
-
-        if(!userId){
-            return new NextResponse("Unauthorized", { status: 401 });
-        }
+        console.log("categories userID: "+userId);
+        // if(!userId){
+        //     return new NextResponse("Unauthorized", { status: 401 });
+        // }
 
         const categories = await db.category.findMany({
             orderBy: {
@@ -16,9 +17,13 @@ export async function GET(req: Request, res:Response){
             }
         });
 
-        return NextResponse.json(categories, { status: 200 });
+        console.log("categories: "+categories);
+        return NextResponse.json(categories || [], { status: 200 });
     }catch(error){
         console.log("[GET_CATEGORIES]",error);
-        return NextResponse.json({ categories: {} }, { status: 500 });
+        return NextResponse.json(
+            { error: "Failed to fetch categories" },
+            { status: 500 }
+        );
     }
 }

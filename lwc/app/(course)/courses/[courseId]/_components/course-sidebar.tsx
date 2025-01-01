@@ -12,7 +12,7 @@ interface courseSidebarProps{
             userProgress: UserProgress[] | null;
         })[]
     };
-    progressCount: number;
+    progressCount: number | null;
 }
 
 export const CourseSidebar = async({
@@ -20,18 +20,15 @@ export const CourseSidebar = async({
     progressCount
 } : courseSidebarProps) => {
     const userId = await currentUserId();
-    if(!userId){
-        return redirect("/dashboard");
-    }
 
-    const purchase = await db.purchase.findUnique({
+    const purchase = userId ? await db.purchase.findUnique({
         where: {
             userId_courseId: {
                 userId,
                 courseId: course.id,
             }
         }
-    });
+    }) : false;
 
     return(
         <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">

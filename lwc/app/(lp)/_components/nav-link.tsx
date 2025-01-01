@@ -55,26 +55,14 @@ const components: { title: string; href: string; description: string }[] = [
 
 const NavLink = () => {
   const pathname = usePathname();
-  const [currentHash, setCurrentHash] = useState<string>("");
-
-  useEffect(() => {
-    setCurrentHash(window.location.hash);
-  }, [pathname]);
 
   const NavLinks = [
-    { id: 1, name: 'Features', path: '#features' },
-    { id: 2, name: 'Student', path: '#student' },
-    { id: 3, name: 'Teacher', path: '#teacher' },
-    { id: 4, name: 'Testimonials', path: '#testimonials' },
-    { id: 5, name: 'Insiders', path: '#inside-platform' },
+    { id: 1, name: 'Features', path: '/#features' },
+    { id: 2, name: 'Student', path: '/#student' },
+    { id: 3, name: 'Teacher', path: '/#teacher' },
+    { id: 4, name: 'Testimonials', path: '/#testimonials' },
+    { id: 5, name: 'Insiders', path: '/#inside-platform' },
   ];
-
-  const isActive = (href: string) => {
-    if(href === "#"){
-      return pathname === "#";
-    }
-    return currentHash === href;
-  };
 
   return (
     <div className="flex md:flex-row w-full items-center justify-center font-light lg:pe-9 flex-col pt-10 md:pt-0">
@@ -87,7 +75,6 @@ const NavLink = () => {
           {NavLinks.map((link) => (
             <li
               key={link.id}
-              
             >
               <Link href={link.path}>{link.name}</Link>
             </li>
@@ -96,22 +83,22 @@ const NavLink = () => {
       </div>
 
       <div className="w-full max-md:hidden h-full flex items-center justify-center">
-        <NavigationMenu className="flex justify-center">
+        <NavigationMenu className="flex justify-center ">
           <NavigationMenuList className="flex gap-x-3 justify-center items-center lg:max-w-4xl max-md:flex-col">
             <NavigationMenuItem className="flex ">
-              <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
+              <NavigationMenuTrigger>Site overview</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid gap-y-0 md:w-[400px] lg:w-[200px] px-2 py-2">
-                  <ListItem href="#features" title="Features"></ListItem>
-                  <ListItem href="#student" title="Student"></ListItem>
-                  <ListItem href="#teacher" title="Teacher"></ListItem>
-                  <ListItem href="#testimonials" title="Testimonials"></ListItem>
-                  <ListItem href="#inside-platform" title="Insiders"></ListItem>
+                <ul className="grid gap-y-0 md:w-[400px] lg:w-[200px] px-2 font-medium text-sm py-2">
+                  <ListItem href="/#features" title="Features" ></ListItem>
+                  <ListItem href="/#student" title="Student"></ListItem>
+                  <ListItem href="/#teacher" title="Teacher"></ListItem>
+                  <ListItem href="/#testimonials" title="Testimonials"></ListItem>
+                  <ListItem href="/#inside-platform" title="What's Inside?"></ListItem>
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/docs" legacyBehavior passHref>
+              <Link href="/explore-courses" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   Explore courses
                 </NavigationMenuLink>
@@ -121,7 +108,7 @@ const NavLink = () => {
         </NavigationMenu>
       </div>
 
-      <div className="flex justify-center md:ms-5">
+      <div className="flex justify-center md:ms-8">
         <LoginButton>
           <Button size="lg">Sign in</Button>
         </LoginButton>
@@ -148,8 +135,8 @@ const ListItem = React.forwardRef<
           )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+          <div className="text-md font-medium leading-none">{title}</div>
+          <p className="line-clamp-2 text-md leading-snug text-muted-foreground">
             {children}
           </p>
         </a>

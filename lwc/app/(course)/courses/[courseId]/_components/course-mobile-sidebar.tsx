@@ -9,7 +9,7 @@ interface CourseMobileSidebarProps{
             userProgress: UserProgress[] | null;
         })[]
     },
-    progressCount: number;
+    progressCount: number | null;
 }
 
 export const CourseMobileSidebar = ({

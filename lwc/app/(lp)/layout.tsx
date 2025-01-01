@@ -22,13 +22,7 @@ const WholeLayout = ({ children }: { children: React.ReactNode }) => {
         <div className="relative overflow-visible scroll-smooth">
             <Header onHeightChange={handleNavbarHeightChange} />
             <main style={{ paddingTop: navbarHeight }}>
-                <Hero />
-                <Feature />
-                <Student />
-                <Teacher />
-                <StudentTestimonial />
-                <TeacherAvatars/>
-                <InsidePlatform/>
+                {children}
             </main>
         </div>
     )

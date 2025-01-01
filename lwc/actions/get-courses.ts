@@ -9,7 +9,7 @@ type CoursesWithProgressWithCategory = Course & {
 };
 
 type GetCourses = {
-    userId: string;
+    userId?: string;
     title?: string;
     categoryId?: string;
 }
@@ -18,7 +18,7 @@ export const getCourses = async({
     userId,
     title,
     categoryId
-}: GetCourses): Promise<CoursesWithProgressWithCategory[]> => {
+}: GetCourses) => {
     try{
         const courses = await db.course.findMany({
             where: {
@@ -50,6 +50,10 @@ export const getCourses = async({
         });
 
         console.log("courses: ",courses);
+
+        if(!userId){
+            return courses;
+        }
 
         const coursesWithProgress: CoursesWithProgressWithCategory[] = await Promise.all(
             courses.map(async course => {

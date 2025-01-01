@@ -2,7 +2,7 @@ import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 
 interface CourseProgressProps{
-    value: number;
+    value: number | null;
     variant?: "default" | "success",
     size?: "default" | "sm";
 }
@@ -30,7 +30,15 @@ export const CourseProgress = ({
                 colorByVariant[variant || "default"],
                 sizeByVariant[size || "default"],
             )}>
-                {Math.round(value)}% Complete
+                {
+                    value ?
+                    (
+                        <>{Math.round(value)}% Complete</>
+                    ) : (
+                        <>0% Complete</>
+                    )
+                }
+                
             </p>
         </div>
     )
