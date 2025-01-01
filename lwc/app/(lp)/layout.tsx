@@ -24,6 +24,7 @@ const WholeLayout = ({ children }: { children: React.ReactNode }) => {
             <main style={{ paddingTop: navbarHeight }}>
                 {children}
             </main>
+            <Footer/>
         </div>
     )
 }
