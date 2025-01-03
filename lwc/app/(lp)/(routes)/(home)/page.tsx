@@ -19,7 +19,7 @@ const Home = () => {
       <Teacher />
       <StudentTestimonial />
       <TeacherAvatars />
-      <InsidePlatform />
+      {/* <InsidePlatform /> */}
     </>
   )
 }

@@ -93,7 +93,7 @@ const NavLink = () => {
                   <ListItem href="/#student" title="Student"></ListItem>
                   <ListItem href="/#teacher" title="Teacher"></ListItem>
                   <ListItem href="/#testimonials" title="Testimonials"></ListItem>
-                  <ListItem href="/#inside-platform" title="What's Inside?"></ListItem>
+                  {/* <ListItem href="/#inside-platform" title="What's Inside?"></ListItem> */}
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
