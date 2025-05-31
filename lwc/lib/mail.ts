@@ -19,7 +19,7 @@ const transporter = nodemailer.createTransport({
 
 export const sendTwoFactorEmail = async (email: string, token: string) => {
     const ans = await transporter.sendMail({
-        from: USER,
+        from: process.env.EMAIL_USER,
         to: email,
         subject: "2FA Code",
         text: "Hello world?",
@@ -31,7 +31,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
     const resetLink = `${process.env.NEXT_PUBLIC_APP_URL}/auth/new-password?token=${token}`;
 
     await transporter.sendMail({
-        from: USER,
+        from: process.env.EMAIL_USER,
         to: email, // list of receivers
         subject: "Reset your password", // Subject line
         // text: "Hello world?", // plain text body
@@ -48,7 +48,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
     // console.log("EMAIL_USER:", process.env.EMAIL_USER);
     // console.log("EMAIL_PASS:", process.env.EMAIL_PASS);
     const ans = await transporter.sendMail({
-        from: USER,
+        from: process.env.EMAIL_USER,
         to: email, // list of receivers
         subject: "Confirm your email", // Subject line
         // text: "Hello world?", // plain text body
