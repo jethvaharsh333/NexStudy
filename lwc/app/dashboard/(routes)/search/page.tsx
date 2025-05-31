@@ -34,7 +34,7 @@ const SearchPage = ({ searchParams }: SearchPageProps) => {
             router.push("/");
         }
     }, [userId, router]);
-    
+
     useEffect(() => {
         const fetchCategories = async () => {
             try {
@@ -49,7 +49,7 @@ const SearchPage = ({ searchParams }: SearchPageProps) => {
 
         const fetchCourses = async () => {
             try {
-                if(!userId){
+                if (!userId) {
                     router.push("/dashboard");
                     return;
                 }
@@ -58,7 +58,7 @@ const SearchPage = ({ searchParams }: SearchPageProps) => {
                     ...searchParams,
                 }).toString();
 
-                console.log("queryString\n",queryString);
+                console.log("queryString\n", queryString);
                 const response = await axios.get(`/api/actions/get-courses?${queryString}`);
                 setCourses(response.data);
                 console.log(response.data);
@@ -73,10 +73,10 @@ const SearchPage = ({ searchParams }: SearchPageProps) => {
         fetchCourses();
     }, [userId, searchParams, router])
 
-    return (  
+    return (
         <>
             <div className="px-6 pt-6 md:hidden mb:mb-0 block">
-                <SearchInput/>
+                <SearchInput />
             </div>
             <div className="p-6 space-y-4">
                 <div>

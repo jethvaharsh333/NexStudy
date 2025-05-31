@@ -4,13 +4,11 @@ import {
     AvatarFallback,
     AvatarImage,
 } from "@/components/ui/avatar";
-import { MaskContainer } from "@/components/ui/svg-mask-effect";
 import BlueTick from "@/public/blue-tick.svg";
 
 export const TeacherAvatars = () => {
     return (
         <div className=" flex flex-col justify-center items-center">
-            
             <h1 className="ps-5 xl:container text-2xl sm:text-4xl text-bold tracking-tight font-bold text-slate-800">
             Learn from the best
             </h1>

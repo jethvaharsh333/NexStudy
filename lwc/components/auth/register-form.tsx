@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {Form,FormControl,FormField,FormItem,FormLabel,FormMessage} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RegisterSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
 
@@ -34,14 +34,20 @@ export const RegisterForm = () => {
 
         startTransition(() => {
             register(values).then((data) => {
-                setError(data.error);
-                setSuccess(data.success);
+                if (data.error) {
+                    setError(data.error);
+                } else {
+                    setSuccess(data.success);
+                    form.reset(); // Reset form fields on success
+                }
             })
         });
+
+        // email: "";
     }
 
-    return(
-        <CardWrapper 
+    return (
+        <CardWrapper
             headerLabel="Create an account"
             backButtonLabel="Already have an account"
             backButtonHref="/auth/login"
@@ -50,10 +56,10 @@ export const RegisterForm = () => {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="space-y-4">
-                    <FormField
+                        <FormField
                             control={form.control}
                             name="name"
-                            render={({field}) => (
+                            render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Name</FormLabel>
                                     <FormControl>
@@ -63,14 +69,14 @@ export const RegisterForm = () => {
                                             placeholder="harsh jethva"
                                         />
                                     </FormControl>
-                                    <FormMessage className="text-xs"/>
+                                    <FormMessage className="text-xs" />
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="email"
-                            render={({field}) => (
+                            render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
@@ -81,14 +87,14 @@ export const RegisterForm = () => {
                                             type="email"
                                         />
                                     </FormControl>
-                                    <FormMessage className="text-xs"/>
+                                    <FormMessage className="text-xs" />
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="password"
-                            render={({field}) => (
+                            render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Password</FormLabel>
                                     <FormControl>
@@ -99,7 +105,7 @@ export const RegisterForm = () => {
                                             type="password"
                                         />
                                     </FormControl>
-                                    <FormMessage className="text-xs"/>
+                                    <FormMessage className="text-xs" />
                                 </FormItem>
                             )}
                         />
