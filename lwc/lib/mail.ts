@@ -41,12 +41,13 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
   
 export const sendVerificationEmail = async (email: string, token: string) => {
     // console.log(domain);
+
     const confirmLink = `${process.env.NEXT_PUBLIC_APP_URL}/auth/new-verification?token=${token}`;
     // console.log(confirmLink);
-    // console.log("Email: ");
+    console.log("Email: "+email);
     // console.log(transporter);
-    // console.log("EMAIL_USER:", process.env.EMAIL_USER);
-    // console.log("EMAIL_PASS:", process.env.EMAIL_PASS);
+    console.log("EMAIL_USER:", process.env.EMAIL_USER);
+    console.log("EMAIL_PASS:", process.env.EMAIL_PASS);
     const ans = await transporter.sendMail({
         from: process.env.EMAIL_USER,
         to: email, // list of receivers
