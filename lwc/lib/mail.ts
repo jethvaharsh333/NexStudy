@@ -8,11 +8,12 @@ const USER = process.env.EMAIL_USER;
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     service: "gmail",
+    secure: true,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
     },
-    // logger: true,
+    logger: true,
 });
 
 // console.log(transporter);
@@ -48,7 +49,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
     // console.log(transporter);
     console.log("EMAIL_USER:", process.env.EMAIL_USER);
     console.log("EMAIL_PASS:", process.env.EMAIL_PASS);
-    const ans = await transporter.sendMail({
+    await transporter.sendMail({
         from: process.env.EMAIL_USER,
         to: email, // list of receivers
         subject: "Confirm your email", // Subject line
