@@ -33,9 +33,10 @@ const formSchema = z.object({
 interface DescriptionFormProps {
     initialData: Course;
     courseId: string;
+    onChange: (value: string) => void;
 }
 
-const DescriptionForm = ({initialData, courseId}:DescriptionFormProps) => {
+const DescriptionForm = ({initialData, courseId, onChange}:DescriptionFormProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const [description, setDescription] = useState(initialData.description);
 
@@ -56,6 +57,8 @@ const DescriptionForm = ({initialData, courseId}:DescriptionFormProps) => {
             setDescription(data.description);
             toast.success("Course updated");
             toggleEdit();
+            onChange(data.description);
+            window.dispatchEvent(new Event('courseUpdated'));
         }
         catch(error){
             toast.error("Something went wrong");

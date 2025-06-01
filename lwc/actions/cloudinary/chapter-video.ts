@@ -17,7 +17,7 @@ export async function upload(previousState: string | undefined | null, formData:
       'base64'
     )}`;
 
-    console.log(`The file: ${previousState} is uploading...`);
+    // console.log(`The file: ${previousState} is uploading...`);
     const response = await cloudinary.uploader.upload(base64Image, {
       resource_type: 'video',
       public_id: 'my_video',

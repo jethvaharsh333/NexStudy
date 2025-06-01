@@ -15,7 +15,7 @@ export const getProgress = async(
             }
         });
 
-        console.log("publishedChapters: "+publishedChapters);
+        // console.log("publishedChapters: "+publishedChapters);
 
         const publishedChaptersIds = publishedChapters.map((chapter) => chapter.id);
 

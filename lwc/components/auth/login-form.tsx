@@ -33,6 +33,7 @@ export const LoginForm = () => {
         defaultValues: {
             email: "",
             password: "",
+            code: "",
         }
     });
 
@@ -40,14 +41,22 @@ export const LoginForm = () => {
         setError("");
         setSuccess("");
 
+
+        console.log("code at form : " + values?.code);
         startTransition(() => {
             login(values, callbackUrl).then((data) => {
+                console.log("----------------------------------------------------------");
+                console.log("data?.success: " + data?.success);
+                console.log("data?.twoFactor: " + data?.twoFactor);
                 if (data?.error) {
                     form.reset();
                     setError(data.error);
                 }
                 if (data?.success) {
+                    // console.log(data);
                     form.reset();
+                    // form.setValue("email", "");
+                    // form.setValue("password", "");
                     setSuccess(data.success);
                 }
                 if (data?.twoFactor) {
@@ -69,23 +78,27 @@ export const LoginForm = () => {
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="space-y-4">
                         {showTwofactor && (
-                            <FormField
-                            control={form.control}
-                            name="code"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Two Factor Code</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            disabled={isPending}
-                                            placeholder="123456"
-                                        />
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>
-                            )}
-                        />
+                            <>
+                                <FormField
+                                    control={form.control}
+                                    name="code"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Two Factor Code</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    disabled={isPending}
+                                                    placeholder="123456"
+                                                />
+                                            </FormControl>
+                                            <FormMessage className="text-xs" />
+                                        </FormItem>
+                                    )}
+                                />
+                                <p className="text-gray-600 text-xs">** Kindly enter the verification code sent to your email inbox to proceed.</p>
+                            </>
+
                         )}
                         {!showTwofactor && (
                             <>

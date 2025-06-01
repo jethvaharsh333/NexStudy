@@ -89,7 +89,7 @@ export async function POST(
                 userId: user.id,
             }
         });
-        console.log("\nsession.url : ",session.url);
+        // console.log("\nsession.url : ",session.url);
         
         return NextResponse.json({ url: session.url });
     }

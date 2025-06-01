@@ -23,9 +23,9 @@ export default function CoursesPage(){
         const fetchCourses = async() => {
             try{
                 setLoading(true);
-                console.log("userId: "+userId);
+                // console.log("userId: "+userId);
                 const response = await axios.get("/api/actions/get-teacher-courses");
-                console.log(response);
+                // console.log(response);
                 setCourses(response.data);
             }catch(error){
                 console.error("Error fetching teacher courses:", error);

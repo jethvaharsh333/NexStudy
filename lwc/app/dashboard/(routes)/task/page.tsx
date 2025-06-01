@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 const Taskpage = () => {
     async function create(formData: FormData){
         "use server";
-        console.log("ia m logged");
+        // console.log("ia m logged");
         const title = formData.get("title") as string;
 
         await db.board.create(
@@ -17,7 +17,7 @@ const Taskpage = () => {
         )
     }
 
-    console.log("I am logged in browser");
+    // console.log("I am logged in browser");
     return (
         <div>
             <form action={create}>

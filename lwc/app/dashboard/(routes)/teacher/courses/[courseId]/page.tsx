@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { IconBadge } from "@/components/icon-badge";
 import { CircleDollarSign, File, LayoutDashboard, ListChecks } from "lucide-react";
 import { Banner } from "@/components/ui/banner";
@@ -57,6 +57,28 @@ const CourseIdPage = ({ params }: CoursePageProps) => {
     fetchCourseData();
   }, [courseId]);
 
+  const { completionText, isComplete } = useMemo(() => {
+    if (!course) return { completionText: "(0/6)", isComplete: false };
+
+    const requiredFields = [
+      course.title,
+      course.description,
+      course.imageUrl,
+      course.price,
+      course.categoryId,
+      course.chapters.some((chapter) => chapter.isPublished),
+    ];
+
+    const total = requiredFields.length;
+    const completed = requiredFields.filter(Boolean).length;
+
+    return {
+      completionText: `(${completed}/${total})`,
+      isComplete: requiredFields.every(Boolean),
+    };
+  }, [course]);
+
+
   if(loading){
     return <SkeletonCourseEdit/>;
   }
@@ -65,19 +87,19 @@ const CourseIdPage = ({ params }: CoursePageProps) => {
     return <div>Course not found.</div>;
   }
 
-  const requiredFields = [
-    course.title,
-    course.description,
-    course.imageUrl,
-    course.price,
-    course.categoryId,
-    course.chapters.some((chapters) => chapters.isPublished),
-  ];
+  // const requiredFields = [
+  //   course.title,
+  //   course.description,
+  //   course.imageUrl,
+  //   course.categoryId,
+  //   course.price,
+  //   course.chapters.some((chapters) => chapters.isPublished),
+  // ];
 
-  const totalFields = requiredFields.length;
-  const completedFields = requiredFields.filter(Boolean).length;
-  const completionText = `(${completedFields}/${totalFields})`;
-  const isComplete = requiredFields.every(Boolean);
+  // const totalFields = requiredFields.length;
+  // const completedFields = requiredFields.filter(Boolean).length;
+  // const completionText = `(${completedFields}/${totalFields})`;
+  // const isComplete = requiredFields.every(Boolean);
 
   const handlePublishedChange = (published: boolean) => {
     setCourse(prevCourse => prevCourse ? { ...prevCourse, isPublished: published } : null);
@@ -89,6 +111,10 @@ const CourseIdPage = ({ params }: CoursePageProps) => {
         ? { ...prevCourse, chapters: [...prevCourse.chapters, newChapter] }
         : null
     );
+  };
+
+  const updateCourseField = (field: keyof Course, value: any) => {
+    setCourse((prev) => prev ? { ...prev, [field]: value } : prev);
   };
 
   return (
@@ -110,9 +136,21 @@ const CourseIdPage = ({ params }: CoursePageProps) => {
               <IconBadge icon={LayoutDashboard} />
               <h2 className="text-xl">Customize your course</h2>
             </div>
-            <TitleForm initialData={course} courseId={course.id} />
-            <DescriptionForm initialData={course} courseId={course.id} />
-            <ImageForm initialData={course} courseId={course.id} />
+            <TitleForm 
+              initialData={course} 
+              courseId={course.id} 
+              onChange={(val) => updateCourseField("title", val)} 
+            />
+            <DescriptionForm 
+              initialData={course} 
+              courseId={course.id}
+              onChange={(val) => updateCourseField("description", val)} 
+            />
+            <ImageForm 
+              initialData={course} 
+              courseId={course.id} 
+              onChange={(val) => updateCourseField("imageUrl", val)} 
+            />
             <CategoryForm
               initialData={course}
               courseId={course.id}
@@ -120,6 +158,7 @@ const CourseIdPage = ({ params }: CoursePageProps) => {
                 label: category.name,
                 value: category.id,
               }))}
+              onChange={(val) => updateCourseField("categoryId", val)} 
             />
           </div>
           <div className="space-y-6">
@@ -135,14 +174,21 @@ const CourseIdPage = ({ params }: CoursePageProps) => {
                 <IconBadge icon={CircleDollarSign} />
                 <h2 className="text-xl">Sell your course</h2>
               </div>
-              <PriceForm initialData={course} courseId={course.id} />
+              <PriceForm 
+                initialData={course} 
+                courseId={course.id} 
+                onChange={(val) => updateCourseField("price", val)} 
+              />
             </div>
             <div>
               <div className="flex items-center gap-x-2">
                 <IconBadge icon={File} />
                 <h2 className="text-xl">Resources and attachments</h2>
               </div>
-              <AttachmentForm initialData={course} courseId={course.id} />
+              <AttachmentForm 
+                initialData={course} 
+                courseId={course.id} 
+              />
             </div>
           </div>
         </div>

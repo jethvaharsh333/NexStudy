@@ -41,7 +41,7 @@ const SettingsPage = () => {
         startTransition(() => {
             settings(values)
                 .then((data) => {
-                    if (data.error) {
+                    if(data.error){
                         setError(data.error);
                     }
 
@@ -50,7 +50,7 @@ const SettingsPage = () => {
                         setSuccess(data.success);
                     }
                 })
-                .catch(() => setError("Something went wrong!"))
+                .catch(() => setError("Something went wrong!"));
         })
     }
 
@@ -121,7 +121,7 @@ const SettingsPage = () => {
                                     />
                                 </>
                             )}
-                            <FormField
+                            {/* <FormField
                                 control={form.control}
                                 name="role"
                                 render={({ field }) => (
@@ -145,7 +145,7 @@ const SettingsPage = () => {
                                         <FormMessage />
                                     </FormItem>
                                 )}
-                            />
+                            /> */}
                             {user?.isOAuth === false && (
                                 <FormField
                                     control={form.control}

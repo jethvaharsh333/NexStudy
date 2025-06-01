@@ -26,13 +26,14 @@ interface ChapterDescriptionFormsProps {
     initialData: Chapter;
     courseId: string;
     chapterId: string;
+    onChange: (value: string) => void;
 }
 
 const formSchema = z.object({
     description: z.string().min(1),
 });
 
-export const ChapterDescriptionForms = ({initialData, courseId, chapterId}:ChapterDescriptionFormsProps) => {
+export const ChapterDescriptionForms = ({initialData, courseId, chapterId, onChange}:ChapterDescriptionFormsProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const [description, setDescription] = useState(initialData.description);
 
@@ -53,10 +54,10 @@ export const ChapterDescriptionForms = ({initialData, courseId, chapterId}:Chapt
         try{
             const { data } = await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
             setDescription(data.description);
+            onChange(data.description);
 
             toast.success("Chapter updated");
             toggleEdit();
-            // router.refresh();
         }
         catch(error){
             toast.error("Something went wrong");

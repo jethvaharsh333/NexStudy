@@ -37,7 +37,7 @@ export async function GET(req: Request, res:Response){
             return new NextResponse("Not Found", { status: 404 });
         }
 
-        console.log("course api: "+course);
+        // console.log("course api: "+course);
         
         return NextResponse.json(course, { status: 200 });
     }catch(error){

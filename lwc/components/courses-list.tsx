@@ -25,6 +25,7 @@ export const CoursesList = ({ items, loading }: CoursesListProps) => {
                     <SkeletonCourseCard/>
                 </div>
             ) : (
+                <>
                 <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4">
                     {items.map((item) => (
                         <CourseCard
@@ -39,12 +40,13 @@ export const CoursesList = ({ items, loading }: CoursesListProps) => {
                             loading={loading}
                         />
                     ))}
+                </div>
                     {items.length === 0 && !loading && (
-                        <div className="text-center text-sm  text-muted-foreground mt-10">
+                        <div className="text-center text-sm flex justify-center items-center text-muted-foreground mt-10">
                             No Course Found
                         </div>
                     )}
-                </div>
+                    </>
             )}
         </div>
     )

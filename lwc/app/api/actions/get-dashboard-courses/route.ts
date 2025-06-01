@@ -10,7 +10,7 @@ export async function GET(req: Request, res:Response){
         if(!userId){
             return new NextResponse("Unauthorized", { status: 401 });
         }
-        console.log("userId: "+ userId);
+        // console.log("userId: "+ userId);
 
         const purchasedCourses = await db.purchase.findMany({
             where: {

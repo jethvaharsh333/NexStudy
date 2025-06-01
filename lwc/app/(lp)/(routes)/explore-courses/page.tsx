@@ -32,9 +32,9 @@ const ExploreCourse = ({ searchParams }: ExploreCourseProps) => {
         const fetchCategories = async () => {
             try {
                 setLoadingCategories(true);
-                console.log("Hello categories client");
+                // console.log("Hello categories client");
                 const response = await axios.get("/api/actions/get-categories");
-                console.log("categories: "+ response);
+                // console.log("categories: "+ response);
                 setCategories(response.data);
             } catch (error) {
                 console.error("Error fetching categories:", error);
@@ -49,10 +49,10 @@ const ExploreCourse = ({ searchParams }: ExploreCourseProps) => {
                     ...searchParams,
                 }).toString();
 
-                console.log("queryString\n",queryString);
+                // console.log("queryString\n",queryString);
                 const response = await axios.get(`/api/actions/get-courses?${queryString}`);
                 setCourses(response.data);
-                console.log(response.data);
+                // console.log(response.data);
             } catch (error) {
                 console.error("Error fetching courses:", error);
             } finally {
@@ -61,7 +61,7 @@ const ExploreCourse = ({ searchParams }: ExploreCourseProps) => {
         };
 
         fetchCategories();
-        console.log("categories: "+categories);
+        // console.log("categories: "+categories);
         fetchCourses();
     }, [searchParams, router])
 

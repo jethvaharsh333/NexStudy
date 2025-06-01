@@ -2,13 +2,19 @@
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { FaUser } from "react-icons/fa";
+import { FaCog, FaUser } from "react-icons/fa";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { LogoutButton } from "@/components/auth/logout-button";
 import { FaSignOutAlt } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 export const UserButton = () => {
     const user = useCurrentUser();
+    const router = useRouter();
+
+    const onClick = (location: string) => {
+        router.push(location);
+    }
 
     return(
         <DropdownMenu>
@@ -21,13 +27,18 @@ export const UserButton = () => {
                 </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-40" align="end" >
+                <DropdownMenuItem onClick={() => onClick("/profile")}>
+                    <FaUser className="h-4 w-4 mr-2"/>
+                    Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onClick("/settings")}>
+                    <FaCog className="h-4 w-4 mr-2"/>
+                    Settings
+                </DropdownMenuItem>
                 <LogoutButton>
                     <DropdownMenuItem>
                         <FaSignOutAlt className="h-4 w-4 mr-2" />
                         Logout
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        Profile
                     </DropdownMenuItem>
                 </LogoutButton>
             </DropdownMenuContent>

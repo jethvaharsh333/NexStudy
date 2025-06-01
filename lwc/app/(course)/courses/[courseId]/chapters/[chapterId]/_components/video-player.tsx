@@ -42,7 +42,7 @@ export const VideoPlayer = ({
                     isCompleted: true,
                 });
 
-                console.log("is happening");
+                // console.log("is happening");
 
                 if(!nextChapterId){
                     confetti.onOpen();

@@ -19,27 +19,25 @@ import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Course } from "@prisma/client";
 import { formatPrice } from "@/lib/format";
 
 const formSchema = z.object({
-    price: z.coerce.number(),
+    price: z.coerce.number().positive("Price must be a positive number"),
 });
 
 interface PriceFormProps {
     initialData: Course;
     courseId: string;
+    onChange: (value: string) => void;
 }
 
-export const PriceForm = ({initialData, courseId}:PriceFormProps) => {
+export const PriceForm = ({initialData, courseId, onChange}:PriceFormProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const [price, setPrice] = useState(initialData.price);
 
     const toggleEdit = () => setIsEditing((current) => !current);
-
-    const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -56,6 +54,7 @@ export const PriceForm = ({initialData, courseId}:PriceFormProps) => {
             setPrice(data.price);
             toast.success("Course updated");
             toggleEdit();
+            onChange(data.price)
         }
         catch(error){
             toast.error("Something went wrong");

@@ -2,11 +2,12 @@
 
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
-import { LogOut } from "lucide-react";
+import { ArrowLeftRight, ArrowLeftRightIcon, LogOut } from "lucide-react";
 import Link from "next/link";
 import { SearchInput } from "./search-input";
 import { UserButton } from "@/components/auth/user-button";
 import { useCurrentUserId } from "@/hooks/use-current-user-id";
+
 
 const NavbarRoutes = () => {
     const pathnamer = usePathname();
@@ -24,19 +25,28 @@ const NavbarRoutes = () => {
                     <SearchInput/>
                 </div>
             )}        
-            <div className="flex gap-x-2 ml-auto">
+            <div className="flex items-center gap-x-2 lg:gap-x-5 ml-auto">
                 {userId ? (
                     (isTeacherPage || isCoursePage) ? (
                         <Link href="/dashboard">
-                            <Button size="sm" variant="ghost"> 
-                                <LogOut className="h-4 w-4 mr-2"/>
-                                Exit
+                            <Button 
+                                className="py-2 px-3 rounded-md flex gap-x-3 items-center border border-transparent hover:border-gray-200 bg-slate-100" 
+                                size="sm" 
+                                variant="ghost"
+                            >                                
+                                <ArrowLeftRightIcon className="h-4 w-4"/>
+                                Teacher Mode
                             </Button>
                         </Link>
                     ) : (
                         <Link href="/dashboard/teacher/courses">
-                            <Button size="sm" variant="ghost">
-                                Teacher Mode
+                            <Button 
+                                className="py-2 px-3 rounded-md flex gap-x-3 items-center border border-transparent hover:border-gray-200 bg-slate-100" 
+                                size="sm" 
+                                variant="ghost"
+                            >                                
+                                <ArrowLeftRightIcon className="h-4 w-4"/>
+                                Student Mode
                             </Button>
                         </Link>
                     )

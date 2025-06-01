@@ -16,7 +16,6 @@ import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
     title: z.string().min(1),
@@ -28,15 +27,14 @@ interface ChapterTitleFormProps {
     };
     courseId: string;
     chapterId: string;
+    onChange: (value: string) => void;
 }
 
-export const ChapterTitleForm = ({initialData, courseId, chapterId}:ChapterTitleFormProps) => {
+export const ChapterTitleForm = ({initialData, courseId, chapterId, onChange}:ChapterTitleFormProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const [title, setTitle] = useState(initialData.title);
 
     const toggleEdit = () => setIsEditing((current) => !current);
-
-    const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -51,7 +49,7 @@ export const ChapterTitleForm = ({initialData, courseId, chapterId}:ChapterTitle
             setTitle(data.title);
             toast.success("Chapter updated");
             toggleEdit();
-            // router.refresh();
+            onChange(data.title);
         }
         catch(error){
             toast.error("Something went wrong");

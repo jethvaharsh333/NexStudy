@@ -6,9 +6,10 @@ import { useCurrentUserId } from "@/hooks/use-current-user-id";
 import { formatPrice } from "@/lib/format";
 import axios from "axios";
 import { useState } from "react";
+import { Info } from "lucide-react";
 import toast from "react-hot-toast";
 
-interface CourseEnrollButtonProps{
+interface CourseEnrollButtonProps {
     price: number;
     courseId: string;
 }
@@ -19,33 +20,47 @@ export const CourseEnrollButton = ({
 }: CourseEnrollButtonProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const userId = useCurrentUserId();
-    
-    const onClick = async() => {
-        try{
+
+    const onClick = async () => {
+        try {
             setIsLoading(true);
 
-            // if(!userId){
-            //     return;
-            // }
-
             const response = await axios.post(`/api/courses/${courseId}/checkout`);
+
+            toast((t) => (
+                    <div className="flex items-start gap-3">
+                        <div className="mt-1 text-blue-600">
+                            <Info className="w-5 h-5" />
+                        </div>
+                        <div className="flex-1">
+                            <p className="font-semibold text-blue-700">Testing Mode</p>
+                            <p className="mt-1">
+                                Enter card number as: <br /><span className="font-mono text-gray-900">4242 4242 4242 4242</span>
+                            </p>
+                            <br />
+                            <p className="text-gray-600">
+                                You may enter other details anonymously.
+                            </p>
+                        </div>
+                </div>
+            ), {
+                duration: 9000,
+            });
+
+
+            await new Promise((res) => setTimeout(res, 9000));
+
             window.location.assign(response.data.url);
         }
-        catch(error){
+        catch (error) {
             toast.error("Something went wrong");
         }
-        finally{
+        finally {
             setIsLoading(false);
         }
     }
 
-    // if(!userId){
-    //     return <LoginButton>
-    //               <Button size="lg">Sign in</Button>
-    //             </LoginButton>;
-    // }
-
-    return(
+    return (
         <Button
             onClick={onClick}
             disabled={isLoading}

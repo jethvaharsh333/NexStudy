@@ -13,6 +13,7 @@ import { generateVerificationToken, generateTwofactorToken } from "@/lib/tokens"
 import { db } from "@/lib/db";
 
 export const login = async (values: z.infer<typeof LoginSchema>, callbackUrl?: string | null) => {
+    console.log("Login api .........")
     const validatedFields = LoginSchema.safeParse(values);
 
     if (!validatedFields.success) {
@@ -39,9 +40,11 @@ export const login = async (values: z.infer<typeof LoginSchema>, callbackUrl?: s
     }
 
     if(existingUser.isTwoFactorEnabled && existingUser.email){
+        console.log("values: "+values);
+        console.log("existingUser.isTwoFactorEnabled && existingUser.email");
         if(code){
             const twoFactorToken = await getTwoFactorTokenByEmail(existingUser.email);
-
+            console.log("token from db : "+twoFactorToken?.token);
             if(!twoFactorToken){
                 return { error: "Invalid code!" };
             }

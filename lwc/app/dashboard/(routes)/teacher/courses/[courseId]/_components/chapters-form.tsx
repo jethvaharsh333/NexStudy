@@ -58,7 +58,7 @@ export const ChaptersForm = ({initialData, courseId, onChapterAdded}:ChaptersFor
             onChapterAdded(newChapter);
             toast.success("Chapter updated");
             toggleCreating();
-            // router.refresh();
+            router.refresh();
         }
         catch(error){
             toast.error("Something went wrong");

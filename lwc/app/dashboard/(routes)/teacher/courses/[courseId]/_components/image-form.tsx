@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { Course } from "@prisma/client";
 import Script from "next/script";
 import { CldImage } from 'next-cloudinary';
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
     imageUrl: z.string().min(1, {
@@ -20,9 +21,10 @@ const formSchema = z.object({
 interface ImageFormProps {
     initialData: Course;
     courseId: string;
+    onChange: (value: string) => void;
 }
 
-const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
+const ImageForm = ({ initialData, courseId, onChange }: ImageFormProps) => {
     const [isUploading, setIsUploading] = useState(false);
     const [imageUrl, setImageUrl] = useState(initialData.imageUrl);
     const preUrlRef = useRef(initialData.imageUrl);
@@ -33,6 +35,7 @@ const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
         try{
             const { data } = await axios.patch(`/api/courses/${courseId}`, values);
             setImageUrl(data.imageUrl);
+            onChange(data.imageUrl);
             toast.success("Course updated");
         } catch (error) {
             toast.error("Something went wrong");
@@ -46,6 +49,8 @@ const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
         }catch(error){
             console.log("Not deleted course image");
         }
+
+        
     };
 
     const handleImageUpload = async (result: any) => {

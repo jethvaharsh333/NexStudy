@@ -17,67 +17,82 @@ import { currentUserId } from "@/lib/auth";
 import { Chapter } from "@prisma/client";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useMemo } from "react";
 import SkeletonChapterEdit from "./_components/skeleton-chapter-edit";
 import { useCurrentUserId } from "@/hooks/use-current-user-id";
 
-const ChapterIdPage = ({params}: {params: {courseId: string; chapterId: string}}) => {
+const ChapterIdPage = ({ params }: { params: { courseId: string; chapterId: string } }) => {
     const [loading, setLoading] = useState(true);
-    const userId  = useCurrentUserId(); 
+    const userId = useCurrentUserId();
     const [chapter, setChapter] = useState<Chapter>();
 
     useEffect(() => {
         setLoading(true);
-        if(!userId){
+        if (!userId) {
             return redirect("/");
         }
 
-        const fetchChapter = async() => {
-            
-            try{
+        const fetchChapter = async () => {
+            try {
                 const response = await axios.get(`/api/actions/get-teacher-chapter?courseId=${params.courseId}&chapterId=${params.chapterId}`);
                 setChapter(response.data);
-            }catch(error){  
+            } catch (error) {
                 console.log("Chapter data error");
-            }finally{
+            } finally {
                 setLoading(false);
             }
         }
 
         // handlePublishedChange();
         fetchChapter();
+
+
     }, [userId, params.courseId, params.chapterId]);
+
+    // useEffect(() => {
+    //     // updateChapterField();
+    //     console.log("Updated chapter:", chapter);
+    // }, [chapter])
+
+    const { completionText, isComplete } = useMemo(() => {
+        if (!chapter) return { completionText: "(0/3)", isComplete: false };
+
+        const requiredFields = [
+            chapter.title,
+            chapter.description,
+            chapter.videoUrl,
+        ];
+
+        const totalFields = requiredFields.length;
+        const completedFields = requiredFields.filter(Boolean).length;
+
+        return {
+            completionText: `(${completedFields}/${totalFields})`,
+            isComplete: requiredFields.every(Boolean),
+        };
+    }, [chapter]);
 
     if (!userId) {
         return null; // Avoid returning hooks conditionally
     }
 
-    if(loading){
-        return <SkeletonChapterEdit/>;
+    if (loading) {
+        return <SkeletonChapterEdit />;
     }
 
-    if(!chapter){
+    if (!chapter) {
         return redirect("/dashboard/teacher/courses");
     }
-
-    const requiredFields = [
-        chapter.title,
-        chapter.description,
-        chapter.videoUrl,
-    ];
-
-
-    const totalFields = requiredFields.length;
-    const completedFields = requiredFields.filter(Boolean).length;
-
-    const completionText = `(${completedFields}/${totalFields})`;
-
-    const isComplete = requiredFields.every(Boolean);
 
     const handlePublishedChange = (published: boolean) => {
         setChapter(prevChapter => prevChapter ? { ...prevChapter, isPublished: published } : undefined);
     };
 
-    return (  
+    const updateChapterField = (field: keyof Chapter, value: any) => {
+        setChapter((prev) => prev ? { ...prev, [field]: value } : prev);
+    };
+
+    return (
         <>
             {!chapter.isPublished && (
                 <Banner variant="warning" label="This chapter is unpublished. It will not be in the course." />
@@ -98,7 +113,7 @@ const ChapterIdPage = ({params}: {params: {courseId: string; chapterId: string}}
                                     Complete all fields {completionText}
                                 </span>
                             </div>
-                            <ChapterActions disabled={!isComplete} courseId={params.courseId} chapterId={params.chapterId} isPublished={chapter.isPublished} onPublishedChange={handlePublishedChange}/>
+                            <ChapterActions disabled={!isComplete} courseId={params.courseId} chapterId={params.chapterId} isPublished={chapter.isPublished} onPublishedChange={handlePublishedChange} />
                         </div>
                     </div>
                 </div>
@@ -111,8 +126,18 @@ const ChapterIdPage = ({params}: {params: {courseId: string; chapterId: string}}
                                     Customize your chapter
                                 </h2>
                             </div>
-                            <ChapterTitleForm initialData={chapter} courseId={params.courseId} chapterId={params.chapterId}  />
-                            <ChapterDescriptionForms initialData={chapter} courseId={params.courseId} chapterId={params.chapterId} />
+                            <ChapterTitleForm
+                                initialData={chapter}
+                                courseId={params.courseId}
+                                chapterId={params.chapterId}
+                                onChange={(value) => updateChapterField("title", value)}
+                            />
+                            <ChapterDescriptionForms
+                                initialData={chapter}
+                                courseId={params.courseId}
+                                chapterId={params.chapterId}
+                                onChange={(value) => updateChapterField("description", value)}
+                            />
                         </div>
                         <div>
                             <div className="flex items-center gap-x-2">
@@ -131,12 +156,17 @@ const ChapterIdPage = ({params}: {params: {courseId: string; chapterId: string}}
                                 Add a video
                             </h2>
                         </div>
-                        <ChapterVideoForm initialData={chapter} courseId={params.courseId} chapterId={params.chapterId} />
+                        <ChapterVideoForm
+                            initialData={chapter}
+                            courseId={params.courseId}
+                            chapterId={params.chapterId}
+                            onChange={(value) => updateChapterField("videoUrl", value)}
+                        />
                     </div>
                 </div>
             </div>
         </>
     );
 }
- 
+
 export default ChapterIdPage;

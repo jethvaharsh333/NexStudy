@@ -8,7 +8,7 @@ const ClientPage = () => {
     // const userId = useCurrentUserId();
     // console.log(userId);
     return (  
-        <UserInfo user={user} label="Client component" />
+        <UserInfo user={user} label="Profile" />
     );
 }
  

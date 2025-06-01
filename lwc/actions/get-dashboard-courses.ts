@@ -32,20 +32,20 @@ export const getDashboardCourses = async(userId: string): Promise<DashboardCours
                 }
             }
         });
-        console.log("purchasecourse_1",purchasedCourses);
+        // console.log("purchasecourse_1",purchasedCourses);
 
         const courses = purchasedCourses.map((purchase) => purchase.course) as CourseWithProgressWithCategory[];
-        console.log("courses_2",courses);
+        // console.log("courses_2",courses);
 
         for(let course of courses){
             const progress = await getProgress(userId, course.id);
             course["progress"] = progress;
         }
-        console.log("courses_3",courses);
+        // console.log("courses_3",courses);
 
         const completedCourses = courses.filter((course) => course.progress === 100);
         const coursesInProgress = courses.filter((course) => (course.progress ?? 0) < 100);
-        console.log("completedCourses ",completedCourses, " ::  coursesInProgress ", coursesInProgress);
+        // console.log("completedCourses ",completedCourses, " ::  coursesInProgress ", coursesInProgress);
 
         return {completedCourses, coursesInProgress}
     }

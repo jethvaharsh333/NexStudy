@@ -58,10 +58,10 @@ const SearchPage = ({ searchParams }: SearchPageProps) => {
                     ...searchParams,
                 }).toString();
 
-                console.log("queryString\n", queryString);
+                // console.log("queryString\n", queryString);
                 const response = await axios.get(`/api/actions/get-courses?${queryString}`);
                 setCourses(response.data);
-                console.log(response.data);
+                // console.log(response.data);
             } catch (error) {
                 console.error("Error fetching courses:", error);
             } finally {

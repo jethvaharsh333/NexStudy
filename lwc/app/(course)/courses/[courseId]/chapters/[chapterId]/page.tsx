@@ -35,7 +35,7 @@ const ChapterIdPage = async({
         return redirect("/dashboard");
     }
 
-    console.log("videoUrl"+chapter?.videoUrl);
+    // console.log("videoUrl"+chapter?.videoUrl);
 
     const isLocked = !chapter.isFree && !purchase;
     const completeOnEnd = !!purchase && !userProgress?.isCompleted;

@@ -34,7 +34,7 @@ export const NewPasswordForm = () => {
         setError("");
         setSuccess("");
 
-        console.log(values);
+        // console.log(values);
 
         startTransition(() => {
             newPassword(values, token).then((data) => {
@@ -42,6 +42,8 @@ export const NewPasswordForm = () => {
                 setSuccess(data?.success);   
             })
         });
+
+        form.reset();
     }
 
     return(

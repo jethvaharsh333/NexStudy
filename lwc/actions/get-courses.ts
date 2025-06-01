@@ -49,7 +49,7 @@ export const getCourses = async({
             }
         });
 
-        console.log("courses: ",courses);
+        // console.log("courses: ",courses);
 
         if(!userId){
             return courses;

@@ -38,6 +38,7 @@ export const AttachmentForm = ({initialData, courseId}:AttachmentFormProps) => {
             setAttachments(data.attachments);
             toast.success("Course updated");
             toggleEdit();
+            router.refresh();
         }
         catch(error){
             toast.error("Something went wrong");

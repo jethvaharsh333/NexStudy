@@ -30,7 +30,7 @@ export const ResetForm = () => {
         setError("");
         setSuccess("");
 
-        console.log(values);
+        // console.log(values);
 
         startTransition(() => {
             reset(values).then((data) => {
@@ -38,6 +38,8 @@ export const ResetForm = () => {
                 setSuccess(data?.success);   
             })
         });
+
+        form.reset();
     }
 
     return(

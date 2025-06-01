@@ -4,9 +4,9 @@ import { NextResponse } from "next/server";
 
 export async function GET(req: Request, res:Response){
     try{
-        console.log("Hello categories api");
+        // console.log("Hello categories api");
         const userId = await currentUserId();
-        console.log("categories userID: "+userId);
+        // console.log("categories userID: "+userId);
         // if(!userId){
         //     return new NextResponse("Unauthorized", { status: 401 });
         // }
@@ -17,7 +17,7 @@ export async function GET(req: Request, res:Response){
             }
         });
 
-        console.log("categories: "+categories);
+        // console.log("categories: "+categories);
         return NextResponse.json(categories || [], { status: 200 });
     }catch(error){
         console.log("[GET_CATEGORIES]",error);

@@ -29,19 +29,18 @@ interface CategoryFormProps {
     initialData: Course;
     courseId: string;
     options: { label: string; value: string; }[];
+    onChange: (value: string) => void;
 }
 
 const formSchema = z.object({
     categoryId: z.string().min(1),
 });
 
-export const CategoryForm = ({initialData, courseId, options}:CategoryFormProps) => {
+export const CategoryForm = ({initialData, courseId, options, onChange}:CategoryFormProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const [categoryId, setCategoryId] = useState(initialData.categoryId);
 
     const toggleEdit = () => setIsEditing((current) => !current);
-
-    const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -55,11 +54,11 @@ export const CategoryForm = ({initialData, courseId, options}:CategoryFormProps)
     const onSubmit = async(values: z.infer<typeof formSchema>) => {
         try{
             const {data} = await axios.patch(`/api/courses/${courseId}`, values);
-            console.log(data);
+            // console.log(data);
             setCategoryId(data.categoryId);
             toast.success("Course updated");
             toggleEdit();
-            // router.refresh();
+            onChange(data.categoryId);
         }
         catch(error){
             toast.error("Something went wrong");

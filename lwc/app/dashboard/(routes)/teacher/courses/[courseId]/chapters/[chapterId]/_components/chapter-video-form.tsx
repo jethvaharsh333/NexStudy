@@ -15,6 +15,8 @@ interface ChapterVideoFormProps {
   initialData: Chapter;
   courseId: string;
   chapterId: string;
+  onChange: (value: string) => void;
+
 }
 
 const formSchema = z.object({
@@ -25,6 +27,7 @@ export const ChapterVideoForm = ({
   initialData,
   courseId,
   chapterId,
+  onChange
 }: ChapterVideoFormProps) => {
   const [isUploading, setIsUploading] = useState(false);
   const [videoUrl, setVideoUrl] = useState(initialData.videoUrl);
@@ -41,6 +44,7 @@ export const ChapterVideoForm = ({
       setVideoUrl(data.videoUrl); // Update state
       preVideoUrlRef.current = data.videoUrl; // Update ref
       toast.success("Chapter updated");
+      onChange(data.videoUrl);
 
       // Delete the old video if it exists
       if (preVideoUrl) {
@@ -57,7 +61,7 @@ export const ChapterVideoForm = ({
   useEffect(() => {
     // Synchronize ref with videoUrl whenever videoUrl changes
     preVideoUrlRef.current = videoUrl;
-    console.log("Updated preVideoUrlRef:", preVideoUrlRef.current);
+    // console.log("Updated preVideoUrlRef:", preVideoUrlRef.current);
   }, [videoUrl]);
 
   const handleVideoUpload = async (result: any) => {
@@ -66,7 +70,6 @@ export const ChapterVideoForm = ({
       setIsUploading(true); // Indicate uploading in progress
       await onSubmit({ videoUrl: publicId });
       setVideoUrl(publicId); // Update state after successful submission
-      router.refresh();
     } catch (error) {
       console.error("Error in handleVideoUpload:", error);
     } finally {

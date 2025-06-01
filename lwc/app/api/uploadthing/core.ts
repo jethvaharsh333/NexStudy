@@ -7,7 +7,7 @@ const f = createUploadthing();
 
 const handleAuth = async () => {
     const userId= await currentUserId();
-    console.log(userId);
+    // console.log(userId);
 
     // const isAuthorized = isTeacher(userId);
     // if (!userId || !isAuthorized) throw new Error("unauthorized");
@@ -24,9 +24,9 @@ export const ourFileRouter = {
         .middleware(() => handleAuth())
         .onUploadComplete(async ({ metadata, file }) => {
             // This code RUNS ON YOUR SERVER after upload
-            console.log("Upload complete for userId:", metadata.userId);
+            // console.log("Upload complete for userId:", metadata.userId);
        
-            console.log("file url", file.url);
+            // console.log("file url", file.url);
        
             // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
             return { uploadedBy: metadata.userId };

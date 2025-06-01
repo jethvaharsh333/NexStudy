@@ -21,7 +21,7 @@ export const Header = ({ onHeightChange }: { onHeightChange: (height: number) =>
   useEffect(() => {
     if (navbarRef.current) {
       onHeightChange(navbarRef.current.offsetHeight);
-      console.log(navbarRef.current.id);
+      // console.log(navbarRef.current.id);
     }
   }, [onHeightChange]);
 

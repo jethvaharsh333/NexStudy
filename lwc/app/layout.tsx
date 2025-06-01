@@ -30,6 +30,7 @@ export default async function RootLayout({
     <SessionProvider session={session}>
       <html lang="en"
       suppressHydrationWarning={true}
+      
       className={`${inter.variable}`}>        
         <body className={inter.className}>
           <ConfettiProvider/>

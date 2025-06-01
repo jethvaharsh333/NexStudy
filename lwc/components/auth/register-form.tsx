@@ -38,12 +38,11 @@ export const RegisterForm = () => {
                     setError(data.error);
                 } else {
                     setSuccess(data.success);
-                    form.reset(); // Reset form fields on success
                 }
             })
         });
 
-        // email: "";
+        form.reset();
     }
 
     return (
